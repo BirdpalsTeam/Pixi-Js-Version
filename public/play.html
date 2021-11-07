@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="./Css/play.css"/>
+		<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet"/>
+		<link rel="shortcut icon" type="image/png" href="Website Assets\Logo.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Birdpals</title>
+	</head>
+
+	<body>
+
+		<div id ="stage">
+			<center>
+				<img id='loading' src="./Website Assets/morph_2.gif" class="loading">
+				<canvas id="game"></canvas>
+			</center>
+		</div>
+
+		<div id="inputElements" hidden="true" class="inputElements">
+			<form id="form" action="">
+				<input id="input" type="text" maxlength="50" autocomplete="off" placeholder="Type a Message..."/>
+				<button>Send</button>
+			</form> 
+			<button id="inventory">Inventory</button>
+			<div id="debugDiv">
+				<p id="debugParagraph"></p>
+			</div>
+		</div>
+
+		<div id='Scripts'>
+			<script src="/socket.io/socket.io.js"></script>
+			<script src='./Modules/PlayFabClientApi.js'></script>
+			<script src="./Modules/jquery.min.js"></script>
+			<script src="./Modules/fontfaceobserver.standalone.js"></script>
+			<script src="./Modules/pixi.min.js"></script>
+			<script src="./Modules/unsafe-eval.min.js"></script>
+			<script src="./Modules/pixi-filters.js"></script>
+			<script src="./Modules/utils.js"></script>
+			<script src="./Scripts/States.js"></script>
+			<script src="./Scripts/pre-loader.js"></script>
+			<script src="./Scripts/Classes_P.js"></script>
+			<script src="./Scripts/Classes_G.js"></script>
+			<script src="./Scripts/localM.js"></script>
+		</div>
+	</body>
+</html>
