@@ -24,14 +24,14 @@ socket.on('readyToPlay?', () =>{	//Server is asking if the player can be added o
 
 socket.on('loggedIn', (receivedPlayers) =>{	//Server response to "Im Ready";
 	receivedPlayers.forEach(player => {
-		if(player.id == playerId && localPlayer == undefined){
+		if(player.id == playerId){
 			localPlayer = new Player(player);
-			players.addChild(localPlayer);
+			objects.addChild(localPlayer);
 		} 
 		else if(player.id != playerId && !checkIfElementIsInArray(player, 'id', playersInGame)){
 			let tempPlayer = new Player(player);
 			playersInGame.push(tempPlayer);
-			players.addChild(tempPlayer);
+			objects.addChild(tempPlayer);
 			delete tempPlayer;
 		}
 	});
@@ -42,13 +42,13 @@ socket.on('newPlayer', (player) => {
 	console.log(player)
 	let tempPlayer = new Player(player);
 	playersInGame.push(tempPlayer); 
-	players.addChild(tempPlayer);
+	objects.addChild(tempPlayer);
 });
 
 socket.on('byePlayer', (playerThatLeft) =>{
 	let playerG = getElementFromArray(playerThatLeft, playerThatLeft.id, playersInGame);
 	removeElementFromArray(playerG, playersInGame);
-	players.removeChild(playerG);
+	objects.removeChild(playerG);
 });
 
 socket.on('joinRoom', (joinRoom) =>{
@@ -56,7 +56,8 @@ socket.on('joinRoom', (joinRoom) =>{
 })
 
 socket.on('leaveRoom', () => {
-	playersInGame = [];
+	objects.removeChildren(0, objects.children.length);
+	playersInGame = new Array();
 })
 
 socket.on('playerIsMoving', (player) =>{
@@ -65,3 +66,16 @@ socket.on('playerIsMoving', (player) =>{
 	playerG.mouseY = player.mouseY
 	playerG.move();
 })
+
+socket.on('playerSaid', (player) => {
+	let playerO = getElementFromArray(player, 'id', playersInGame);
+
+	playerO.message = player.message;
+
+	if(playerO.messageTimeout != undefined){
+		clearTimeout(playerO.messageTimeout);
+		playerO.drawBubble();
+	}else{
+		playerO.drawBubble();
+	}
+});
