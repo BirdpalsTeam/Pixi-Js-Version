@@ -6,7 +6,7 @@ playerId = sessionStorage.playerId;
 
 var loading_screen = document.getElementById('loading');
 
-var objects, localPlayer, book;
+var objects, localPlayer, book, inventory;
 var playersInGame = new Array();
 
 var JSONSrc = 'JSONS/';
@@ -19,6 +19,7 @@ var audioSrc = 'Audio/';
 
 var rooms, currentRoom, triggers, collisionArray, roomCollCellWidth, roomCollCellHeight, predictArray, triggers;
 var foreground;
+var particles;
 
 window.onload = ()=>{
 	app = new WorldState(document.getElementById('game'));
@@ -29,11 +30,18 @@ window.onload = ()=>{
 	app.loader.add('bubble_message', `${spritesSrc}hud/bubble.png`);
 	app.loader.add('Arial', `${hudSrc}Arial.fnt`);
 	app.loader.add('BCaslon_font', `${hudSrc}CaslonAntique-BoldItalic.fnt`);
-	app.loader.add('Caslon_font', `${hudSrc}CaslonAntique-BoldItalic.ttf`)
+	app.loader.add('Caslon_font', `${hudSrc}CaslonAntique-BoldItalic.ttf`);
 	app.loader.add('book', `${hudSrc}book.png`);
 	app.loader.add('book_X', `${hudSrc}book_X.png`);
-	app.loader.add('f', `${hudSrc}test_bird.png`);
-	app.loader.add('b', `${hudSrc}mask_bird.png`)
+	app.loader.add('arrow', `${hudSrc}arrow.png`);
+	app.loader.add('bio_button', `${hudSrc}bio_button.png`);
+	app.loader.add('loading_i', `${hudSrc}loading_i.png`);
+	app.loader.add('big_bird', `${hudSrc}big_bird.png`);
+	app.loader.add('snow', `${JSONSrc}emitter.json`);
+	app.loader.add('snowTexture', `${hudSrc}Snow100.png`);
+	app.loader.add('colorReplacementFrag', `Scripts/colorReplace.frag`);
+	app.loader.add('shader', `Scripts/shader.frag`);
+	
 	app.loader.onProgress.add(showLoading);
 	app.loader.onComplete.add(finishedPreLoading);
 	app.loader.onError.add(loadingError);
@@ -59,11 +67,15 @@ window.onload = ()=>{
 		
 		foreground = new PIXI.Container();
 		foreground.name = 'Foreground';
-		foreground.zIndex = 1;
+		foreground.zIndex = objects.zIndex + 1;
+
+		particles = new PIXI.ParticleContainer();
+		particles.name = 'Particles';
+		particles.zIndex = foreground.zIndex + 1;
 
 		book = new PIXI.Container();
 		book.name = 'Book';
-		book.zIndex = 2;
+		book.zIndex = particles.zIndex + 1;
 
 		PIXI.BitmapFont.from("LUsernameFont", fontStyle('bolder', '#FFFFFF', '#000000'));
 		PIXI.BitmapFont.from('NUsernameFont', fontStyle('normal', '#FFFFFF', '#000000'));
@@ -71,7 +83,9 @@ window.onload = ()=>{
 		app.viewport.addChild(rooms);
 		app.viewport.addChild(objects);
 		app.viewport.addChild(foreground);
+		app.viewport.addChild(particles);
 		app.viewport.addChild(book);
+		
 		waitServerResponse();
 	}
 
@@ -81,7 +95,7 @@ window.onload = ()=>{
 			currentRoom = new Room('town');
 			rooms.addChild(currentRoom);
 			currentRoom.getCollision('town');
-			currentRoom.getObjects(true);
+			currentRoom.getObjects(resources);
 			
 			let localG = document.createElement('script');
 			localG.src = 'Scripts/localG.js';
@@ -101,4 +115,18 @@ window.onload = ()=>{
 		lineJoin: 'round',
 		fontWeight: fontWeight}
 	}
+
+	let c_rect = app.view.getBoundingClientRect();
+	$('#bioInput').css({
+		top: c_rect.top + 180,
+		left: c_rect.left + 510
+	});
+}
+
+window.onresize = ()=>{
+	let c_rect = app.view.getBoundingClientRect();
+	$('#bioInput').css({
+		top: c_rect.top + 180,
+		left: c_rect.left + 510
+	});
 }

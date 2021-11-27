@@ -13,6 +13,7 @@
 		<div id ="stage">
 			<center>
 				<img id='loading' src="./Website Assets/morph_2.gif" class="loading">
+				<textarea id="bioInput" spellcheck="true" maxlength="144" placeholder="Write your description here." hidden></textarea>
 				<canvas id="game"></canvas>
 			</center>
 		</div>
@@ -22,6 +23,11 @@
 				<input id="input" type="text" maxlength="50" autocomplete="off" placeholder="Type a Message..."/>
 				<button>Send</button>
 			</form> 
+			<div>
+				<input type="color" id="bird_color" name="head"
+					   value="#359ADE">
+				<label for="head">Bird Color</label>
+			</div>
 			<button id="inventory">Inventory</button>
 			<div id="debugDiv">
 				<p id="debugParagraph"></p>
@@ -36,12 +42,19 @@
 			<script src="./Modules/unsafe-eval.min.js"></script>
 			<script src="./Modules/viewport.min.min.js"></script>
 			<script src="./Modules/pixi-filters.js"></script>
+			<script src="./Modules/particle-emitter.min.js"></script>
+			<script src="./Modules/pixi-particles.min.js"></script>
+			<script src="./Modules/word-wrapper.js"></script>
+			<script src="./Modules/pixijs-grid.js"></script>
 			<script src="./Modules/utils.js"></script>
+			<script src="./Modules/Collisions.min.js"></script>
+			<script src="./Modules/decomp.min.js"></script>
 			<script src="./Scripts/States.js"></script>
 			<script src="./Scripts/pre-loader.js"></script>
-			<script src="./Modules/word-wrapper.js"></script>
+			<script src="./Scripts/Classes_O.js"></script>
 			<script src="./Scripts/Classes_P.js"></script>
 			<script src="./Scripts/Classes_G.js"></script>
+			<script src="./Scripts/Classes_I.js"></script>
 			<script src="./Scripts/localM.js"></script>
 		</div>
 	</body>

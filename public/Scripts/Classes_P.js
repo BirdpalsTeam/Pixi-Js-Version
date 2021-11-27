@@ -19,6 +19,7 @@ class Player extends PIXI.Sprite{
 		this.isDev = player.isDev;
 		this.canMove = true;
 		this.canDrawUsername = true;
+		this.collider = new Point(this.x, this.y);
 		//Bubble
 		this.bubble = this.addChild(new PIXI.Sprite(resources.bubble_message.texture));
 		this.bubble.visible = false;
@@ -48,6 +49,7 @@ class Player extends PIXI.Sprite{
 				break;
 		}
 		this.zIndex = this.y;
+		this.whereToLook();
 	}
 
 	whereToLook(){
@@ -86,7 +88,7 @@ class Player extends PIXI.Sprite{
 				this.movePlayer();
 			}
 			this.whereToLook();
-		}	
+		}
 	}
 
 	movePlayer(){
@@ -101,49 +103,45 @@ class Player extends PIXI.Sprite{
 		let velX = Math.cos(angleToMove) * speed;
 		let velY = Math.sin(angleToMove) * speed;
 		let timeToPlayerReachDestination = Math.floor(dx/velX);
-		let collided, willCollide;
-		
-		function predictCollision(x1, y1, x2, y2, x, y) {
-			//x1 and y1 are bottom-left and x2 and y2 are top-right
-			if (x > x1 && x < x2 && y > y1 && y < y2){
-				willCollide = false;
-			}else{
-				willCollide = true;
-			}
-		}
-
-		predictCollision(predictArray[0],predictArray[1],predictArray[2],predictArray[3],this.mouseX,this.mouseY);
+		let collided = false;
 
 		this.movePlayerInterval = new PIXI.Ticker();
-
+		
 		this.movePlayerInterval.add((delta)=>{
-			if(willCollide == true){
-				for(let i = 0; i < collisionArray.length; i+=2){
-					if(timeToPlayerReachDestination <= 0) return collided = true;
-					if(this.x + velX <= collisionArray[i] + roomCollCellWidth && this.x + velX >= collisionArray[i]){
-						if(this.y + velY <= collisionArray[i + 1] + roomCollCellHeight && this.y + velY >= collisionArray[i + 1]){
-							this.isMoving = false;
-							triggers.forEach(function(tempTrigger){ //Goes through each trigger to see if the player is within it
-								if(localPlayer.y >= tempTrigger[1] && localPlayer.y <= tempTrigger[3] && localPlayer.x >= tempTrigger[0] && localPlayer.x <= tempTrigger[2]){
-									currentRoom.activateTrigger(tempTrigger);
-								}
-							});
-							this.movePlayerInterval.destroy();
-						}
-					}
-				}
-			}
-
-			this.x += velX * delta;
-			this.y += velY * delta;
-			timeToPlayerReachDestination--;
-			this.zIndex = this.y;
-			if(timeToPlayerReachDestination <= 0){
+			if(timeToPlayerReachDestination <= 0 || collided == true){
 				this.isMoving = false;
-				this.movePlayerInterval.destroy();
+				return this.movePlayerInterval.destroy();
+			}
+			let newX = this.x + velX * delta;
+			let newY = this.y + velY * delta;
+			this.collider.x = newX;
+			this.collider.y = newY;
+			let collisions = 0;
+			collisionArray.forEach((polygon) =>{
+				if(this.collider.collides(polygon) == false){
+					collisions += 1;
+				}
+			})
+			if(collisions == collisionArray.length){
+				this.isMoving = false;
+				this.collider.x = this.x;
+				this.collider.y = this.y;
+				triggers.forEach(function(tempTrigger){ //Goes through each trigger to see if the player is within it
+					if(localPlayer.y >= tempTrigger[1] && localPlayer.y <= tempTrigger[3] && localPlayer.x >= tempTrigger[0] && localPlayer.x <= tempTrigger[2]){
+						currentRoom.activateTrigger(tempTrigger);
+					}
+				});
+				collided = true;
+				return this.movePlayerInterval.destroy();
+			}
+			if(collided == false){
+				this.x = newX;
+				this.y = newY;
+				timeToPlayerReachDestination--;
+				this.zIndex = this.y;
 			}
 		})
-
+		
 		this.movePlayerInterval.start();
 	}
 
@@ -159,10 +157,6 @@ class Player extends PIXI.Sprite{
 			bitmapText.anchor.set(0.5, 0.5);
 			bitmapText.x += 2.4*(this.bubble.width / 4);
 			bitmapText.y = 27;
-			if(bitmapText.textWidth > bitmapText.maxWidth){
-				
-			}
-			console.log(bitmapText);
 			this.bubble.addChild(bitmapText);
 			this.bubble.visible = true;
 			this.hideBubble();
@@ -188,40 +182,15 @@ class Player extends PIXI.Sprite{
 	}
 }
 
-class PlayerCard extends PIXI.Sprite{
+class PlayerCard extends Book{
 	constructor(player){
-		super(resources.book.texture);
-		this.visible = false;
-		this.x = 50;
-		this.y = 40;
-		this.closeButton = this.addChild(PIXI.Sprite.from(resources.book_X.texture));
-		this.closeButton.x = 795;
-		this.closeButton.y = 24;
-		this.closeButton.interactive = true;
-		this.closeButton.buttonMode = true;
-		this.closeButton.scale.set(0.35, 0.35);
-		this.closeButton.on('pointerdown', (event) => {this.close()});
-		this.closeButton.on('pointerover', (event) => {this.closeButton.tint =  0xA3A3A3});
-		this.closeButton.on('pointerout', (event) => {this.closeButton.tint =  0xFFFFFF});
-		this.bio = player.bio;
-		this.username = player.username;
+		super(player);
 	}
 
-	open(){
-		book.addChild(this);
-		localPlayer.canMove = false;
-		this.visible = true;
+	customOpen(){
 		this.drawRectangle();
 		this.drawBio();
 		this.drawUsername();
-	}
-
-	close(){
-		this.visible = false;
-		setTimeout(() => {
-			localPlayer.canMove = true;
-		}, 10);
-		this.destroy();
 	}
 
 	drawRectangle(){
@@ -236,7 +205,8 @@ class PlayerCard extends PIXI.Sprite{
 			fontName: 'Caslon_font',
 			align: 'center'
 		});
-		bioText.x = 600;
+		bioText.anchor.x = 0.5;
+		bioText.x = 620;
 		bioText.y = 140;
 		this.graphics.addChild(bioText);
 	}
@@ -244,8 +214,13 @@ class PlayerCard extends PIXI.Sprite{
 	drawUsername(){
 		let usernameText = new PIXI.BitmapText(this.username,{
 			fontName: 'Caslon Antique',
+			fontSize: 40,
 			align: 'center'
 		});
+
+		usernameText.anchor.x = 0.5;
+		usernameText.x = 235;
+		usernameText.y = 45;
 		this.addChild(usernameText)
 	}
 }

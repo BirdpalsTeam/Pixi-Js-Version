@@ -1,6 +1,6 @@
 {
   "frames": {
-    "cabin_background.png": {
+    "cabin_Background.png": {
       "frame": {
         "x": 0,
         "y": 0,
@@ -24,24 +24,24 @@
         "y": 0.5
       }
     },
-    "cabin_foreground.png": {
+    "cabin_Foreground.png": {
       "frame": {
-        "x": 1000,
-        "y": 0,
+        "x": 0,
+        "y": 600,
         "w": 236,
         "h": 143
       },
       "rotated": false,
-      "trimmed": true,
+      "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
-        "y": 457,
+        "y": 0,
         "w": 236,
         "h": 143
       },
       "sourceSize": {
-        "w": 1000,
-        "h": 600
+        "w": 236,
+        "h": 143
       },
       "pivot": {
         "x": 0.5,
@@ -50,8 +50,8 @@
     },
     "cabin_ping pong table.png": {
       "frame": {
-        "x": 1236,
-        "y": 0,
+        "x": 236,
+        "y": 600,
         "w": 224,
         "h": 206
       },
@@ -83,8 +83,8 @@
     "image": "../Sprites/rooms/cabin/cabin.png",
     "format": "RGBA8888",
     "size": {
-      "w": 1460,
-      "h": 600
+      "w": 1000,
+      "h": 806
     },
     "scale": 1
   }

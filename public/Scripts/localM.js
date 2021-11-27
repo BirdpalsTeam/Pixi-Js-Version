@@ -35,8 +35,8 @@ socket.on('loggedIn', (receivedPlayers) =>{	//Server response to "Im Ready";
 			delete tempPlayer;
 		}
 	});
-	loading_screen.hidden = true;
 })
+
 
 socket.on('newPlayer', (player) => {
 	console.log(player)
@@ -68,14 +68,20 @@ socket.on('playerIsMoving', (player) =>{
 })
 
 socket.on('playerSaid', (player) => {
-	let playerO = getElementFromArray(player, 'id', playersInGame);
+	let playerO = getElementFromArray(player, 'id', objects.children);
 
 	playerO.message = player.message;
 
 	if(playerO.messageTimeout != undefined){
 		clearTimeout(playerO.messageTimeout);
+		if(playerO.bubble.children[0] !== undefined) playerO.bubble.removeChildAt(0);
 		playerO.drawBubble();
-	}else{
+	}else if(playerO.messageTimeout == undefined){
 		playerO.drawBubble();
 	}
 });
+
+socket.on('changedBio', (newBio) =>{
+	let player = getElementFromArrayByValue(newBio.player, 'id', playersInGame);
+	player.card.bio = newBio.newBio;
+})

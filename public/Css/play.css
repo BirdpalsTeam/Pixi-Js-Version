@@ -37,18 +37,18 @@ body {
 
 #bioInput{
 	position: absolute;
-	width: 370px;
+	width: 335px;
 	height: 335px;
-	z-index: 30;
 	text-align: center;
 	border: none;
 	outline: none;
 	resize: none;
 	background: transparent;
 	font-family:"Caslon";  
-	font-size: 30px; 
+	font-size: 27px; 
 	color: #615f5b;
 }
+
 input {
   width: 30%;
   padding: 8px 8px;
