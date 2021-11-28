@@ -4,13 +4,13 @@ exports.run = (io, socket, server_utils, AFKTime , rooms, devTeam, IPBanned, Pla
 		server_utils.resetTimer(socket, AFKTime);
 		let thisPlayerRoom = server_utils.getElementFromArrayByValue(socket.gameRoom, 'name', Object.values(rooms));
 		let reporter = server_utils.getElementFromArrayByValue(socket.playerId, 'id', thisPlayerRoom.players); //The user who is reporting
-	
+
 		message = server_utils.separateString(message);
-		let playerName = message[1];
-		if(playerName == undefined || message[2] == undefined) return;
-	
+		let playerName = message[0];
+		if(playerName == undefined || message[1] == undefined) return;
 		server_utils.getPlayfabUserByUsername(playerName).then(response =>{
-			let reportMessage = message.slice(2, message.length);
+			//Prevents reportMessage spaces from beeing deleted
+			let reportMessage = message.slice(1, message.length);
 			reportMessage = reportMessage.toString().split(',').join(' ');
 			let channel = client.channels.cache.get('845340393461645352'); //Connect to report channel on discord
 			PlayFabServer.ReportPlayer({ReporterId: reporter.id, ReporteeId: response.data.UserInfo.PlayFabId, Comment: reportMessage}, (error, result) =>{

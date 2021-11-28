@@ -23,13 +23,13 @@ exports.run = (socket, rooms, AFKTime, client, server_discord, server_utils, pro
 
 	socket.on('message',(message)=>{
 		rateLimiter.consume(socket.id).then(()=>{
-			if(socket.playerId == undefined) return;
+			if(socket.playerId == undefined || message == undefined) return;
 			server_utils.resetTimer(socket, AFKTime);
 			let thisPlayerRoom = server_utils.getElementFromArrayByValue(socket.gameRoom, 'name', Object.values(rooms));
 			let player = server_utils.getElementFromArrayByValue(socket.playerId, 'id', thisPlayerRoom.players);
 			let channel = client.channels.cache.get('845340183984341075');
 			let dateUTC = new Date(Date.now()).toUTCString();
-			if(message != undefined && server_utils.separateString(message)[0].includes("/") == false){
+			if(server_utils.separateString(message)[0].includes("/") == false){
 				if(profanity.filter(message) == true){
 					let messageObject = {
 						id: player.id,
