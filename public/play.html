@@ -13,8 +13,22 @@
 		<div id ="stage">
 			<center>
 				<img id='loading' src="./Website Assets/morph_2.gif" class="loading">
-				<textarea id="bioInput" spellcheck="true" maxlength="144" placeholder="Write your description here." hidden></textarea>
 				<canvas id="game"></canvas>
+				<textarea id="bioInput" spellcheck="true" maxlength="144" placeholder="Write your description here." hidden></textarea>
+				<div class="reportDiv" id="reportDiv" hidden>
+					<div id="reportingDiv">
+						<img id="reportEnvelopeBackground" src="Sprites/hud/reportEnvelope.png">
+						<h1 id="REPORTtext">REPORT</h1>
+						<textarea id="reportInput" class="reportInput" maxlength="200"></textarea>
+						<img id="reportSubmit" src="Sprites/hud/submitreport.png">
+					</div>
+					<div id="submittedDiv" hidden>
+						<img id="reportEnvelopeClosedBackground" src="Sprites/hud/reportEnvelopeClosed.png">
+						<h2 id="reportThanks">Thanks for Reporting!</h2>
+					</div>
+					<img id="closeReport" src="Sprites/hud/closereport.png">
+				</div>
+				<div id="chatbox" class="chatbox"></div>
 			</center>
 		</div>
 
@@ -24,11 +38,11 @@
 				<button>Send</button>
 			</form> 
 			<div>
-				<input type="color" id="bird_color" name="head"
-					   value="#359ADE">
+				<input type="color" id="bird_color" name="head" value="#359ADE">
 				<label for="head">Bird Color</label>
 			</div>
 			<button id="inventory">Inventory</button>
+			<button id="toggleChatbox">Toggle Chatbox</button>
 			<div id="debugDiv">
 				<p id="debugParagraph"></p>
 			</div>
@@ -38,6 +52,7 @@
 			<script src="/socket.io/socket.io.js"></script>
 			<script src='./Modules/PlayFabClientApi.js'></script>
 			<script src="./Modules/jquery.min.js"></script>
+			<script src="./Modules/lodash.min.js"></script>
 			<script src="./Modules/pixi.min.js"></script>
 			<script src="./Modules/unsafe-eval.min.js"></script>
 			<script src="./Modules/viewport.min.min.js"></script>
