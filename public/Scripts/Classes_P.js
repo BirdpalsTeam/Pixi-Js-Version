@@ -103,8 +103,10 @@ class Player extends PIXI.Sprite{
 		let velX = Math.cos(angleToMove) * speed;
 		let velY = Math.sin(angleToMove) * speed;
 		let timeToPlayerReachDestination = Math.floor(dx/velX);
+		let totalTime = timeToPlayerReachDestination;
+		let rest = timeToPlayerReachDestination % 20;
 		let collided = false;
-
+		
 		this.movePlayerInterval = new PIXI.Ticker();
 		
 		this.movePlayerInterval.add((delta)=>{
@@ -112,6 +114,7 @@ class Player extends PIXI.Sprite{
 				this.isMoving = false;
 				return this.movePlayerInterval.destroy();
 			}
+
 			let newX = this.x + velX * delta;
 			let newY = this.y + velY * delta;
 			this.collider.x = newX;
@@ -132,17 +135,33 @@ class Player extends PIXI.Sprite{
 					}
 				});
 				collided = true;
+				this.anchor.y = 1;
 				return this.movePlayerInterval.destroy();
 			}
 			if(collided == false){
 				this.x = newX;
 				this.y = newY;
+				this.anchor.y = littleJump(timeToPlayerReachDestination);
 				timeToPlayerReachDestination--;
 				this.zIndex = this.y;
 			}
 		})
 		
 		this.movePlayerInterval.start();
+
+		function littleJump(currentDuration){
+			let y;
+			if(currentDuration > 20){
+				//Modular equation of sine graph
+				//f(x) = |0.3 * sin( ((2 * π) / 40) * x)| + 0.9
+				y = Math.abs(0.3 * Math.sin( ((2 * Math.PI) / 40) * currentDuration) ) + 0.9;
+			}else if(currentDuration <=20 || currentDuration == rest){
+				//Vertical launch equation
+				//y = 0.1 * x - 5 / 2
+				y = (1 / (0.1 * currentDuration - 5 * Math.pow(currentDuration, 2)) ) + 1.2;
+			}
+			return y;
+		}
 	}
 
 	drawBubble(){
@@ -202,108 +221,5 @@ class Player extends PIXI.Sprite{
 		});
 		usernameText.anchor.set(0.5, 0.2);
 		this.addChild(usernameText);
-	}
-}
-
-class PlayerCard extends Book{
-	constructor(player){
-		super(player);
-		this.name = 'PlayerCard';
-	}
-
-	customOpen(){
-		UI.addChild(this);
-		this.drawRectangle();
-		this.drawBio();
-		this.drawUsername();
-		this.addChild(new Report(this.username));
-	}
-
-	customClose(){
-		this.destroy();
-	}
-
-	drawRectangle(){
-		this.graphics = new PIXI.Graphics();
-		this.graphics.lineStyle(5, 0x000000);
-		this.graphics.drawRoundedRect(455, 102, 340, 305, 2)
-		this.addChild(this.graphics);
-	}
-
-	drawBio(){
-		let bioText = new PIXI.Text(this.bio,{
-			fontFamily: 'Caslon_font',
-			fill: '#615f5b',
-			align: 'center',
-			wordWrap: true,
-			breakWords: true,
-			wordWrapWidth: 330
-		});
-		bioText.anchor.x = 0.5;
-		bioText.x = 622;
-		bioText.y = 140;
-		if(bioText.height >= 240){
-			bioText.height = 240;
-		}
-		this.graphics.addChild(bioText);
-	}
-
-	drawUsername(){
-		let usernameText = new PIXI.BitmapText(this.username,{
-			fontName: 'Caslon Antique',
-			fontSize: 40,
-			align: 'center',
-			tint: 0x615f5b
-		});
-
-		usernameText.anchor.x = 0.5;
-		usernameText.x = 235;
-		usernameText.y = 45;
-		this.addChild(usernameText)
-	}
-}
-
-class Report extends PIXI.Sprite{
-	constructor(playerUsername){
-		super(resources.report_button.texture);
-		this.interactive = true;
-		this.buttonMode = true;
-		this.name = 'Report';
-		this.x = 70;
-		this.y = 20;
-		this.reportDiv = document.getElementById("reportDiv");
-		this.reportInput = document.getElementById("reportInput");
-		this.reportingDiv = document.getElementById("reportingDiv");
-		this.submittedDiv = document.getElementById("submittedDiv");
-		this.playerToReport = playerUsername;
-		this.on('pointerdown', ()=>{this.openReport()});
-		//Add a gray background
-		this.grayBg = _.cloneDeep(transparentBg);
-		this.grayBg.visible = false;
-		this.addChildAt(this.grayBg, 0);
-		this.grayBg.x -= 50 + this.x;
-		this.grayBg.y -= 40 + this.y;
-	}
-
-	openReport(){
-		this.reportInput.value = "";
-		this.reportDiv.hidden = false;
-		this.reportingDiv.hidden = false;
-		this.submittedDiv.hidden = true;
-		this.grayBg.visible = true;
-		let thisReport = this.parent.getChildAt(this.parent.getChildIndex(this));
-		document.getElementById('closeReport').onclick = function(){thisReport.closeReport();};
-		document.getElementById('reportSubmit').onclick = function(){thisReport.submitReport();};
-	}
-
-	closeReport(){
-		this.reportDiv.hidden = true;
-		this.grayBg.visible = false;
-	}
-
-	submitReport(){
-		command('/report', `${this.playerToReport} ${this.reportInput.value}`);
-		this.reportingDiv.hidden = true;
-		this.submittedDiv.hidden = false;
 	}
 }
