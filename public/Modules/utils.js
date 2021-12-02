@@ -32,17 +32,11 @@ function separateStrings(string){
 	return separated;
 }
 
-let devCommands = [{command:'/ban', message:'Banning...'}, {command:'/unban', message: 'Unbanning...'}, {command: '/remove', message: 'Removing Player...'}];
-
 function command(command, message){
-	let isDevCommand = getElementFromArrayByValue(command, 'command', devCommands);
-	if(localPlayer.isDev == true && isDevCommand != false){
-		setLocalMessage(isDevCommand.message, true);	//Make the bird say words like Banning...
-	}
 	socket.emit(command, message);	//Send command to the server
 }
 
-function setLocalMessage(thisMessage, isDevCommand){
+function setLocalMessage(thisMessage){
 	let checkCommand = thisMessage.split(" ");
 	if(checkCommand[0].includes("/") == true){	//Check if it's a command
 		command(checkCommand[0], thisMessage);
@@ -55,8 +49,6 @@ function setLocalMessage(thisMessage, isDevCommand){
 		}else if(localPlayer.messageTimeout == undefined){
 			localPlayer.drawBubble();
 		}
-		if(isDevCommand == false || isDevCommand == undefined){	//Prevents from the moderators or devs saying, for example, Banning... for everyone
-			socket.emit('message', thisMessage);
-		}
+		socket.emit('message', thisMessage);
 	}
 }
