@@ -37,7 +37,6 @@ socket.on('loggedIn', (receivedPlayers) =>{	//Server response to "Im Ready";
 	});
 })
 
-
 socket.on('newPlayer', (player) => {
 	console.log(player)
 	let tempPlayer = new Player(player);
@@ -97,14 +96,6 @@ socket.on('changingInventory', (boolean) =>{
 socket.on('changedBio', (newBio) =>{
 	let player = getElementFromArrayByValue(newBio.player, id, playersObject);
 	player.card.bio = newBio.newBio;
-})
-
-socket.on('playerBanned!', () =>{
-	setLocalMessage('Successfully Banned :)', true);
-})
-
-socket.on('playerUnbanned!', () =>{
-	setLocalMessage('Successfully UnBanned :)', true);
 })
 
 socket.on('M', (s) =>{
