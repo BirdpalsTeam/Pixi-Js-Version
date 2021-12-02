@@ -1,4 +1,4 @@
-exports.run = (io, socket, players, Player, rooms, devTeam, IPBanned, PlayFabServer, PlayFabAdmin, profanity, server_utils, rateLimiter) =>{
+exports.run = (io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, PlayFabServer, PlayFabAdmin, profanity, server_utils, rateLimiter) =>{
 
 	socket.on('login',(ticket)=>{
 		rateLimiter.consume(socket.id).then(()=>{
@@ -142,8 +142,10 @@ exports.run = (io, socket, players, Player, rooms, devTeam, IPBanned, PlayFabSer
 													})
 													thisPlayer = new Player(PlayFabId, resultFromAuthentication.data.UserInfo.TitleInfo.DisplayName, playerGear, biography, result.data.Friends);
 													if(server_utils.getElementFromArrayByValue(PlayFabId, 'id', devTeam.devs) != false){
-														thisPlayer.isDev = true;
-													};
+														socket.isDev = true;
+													}else if(server_utils.getElementFromArrayByValue(PlayFabId, 'id', modTeam.mods) != false){
+														socket.isMod = true;
+													}
 													if(socket.disconnected == true) return;
 													players.push(thisPlayer);
 													socket.playerId = resultFromAuthentication.data.UserInfo.PlayFabId;
@@ -152,6 +154,7 @@ exports.run = (io, socket, players, Player, rooms, devTeam, IPBanned, PlayFabSer
 													rooms.town.players.push(thisPlayer);
 													socket.emit('readyToPlay?');	//Say to the client they can already start playing
 													socket.broadcast.to(socket.gameRoom).emit('newPlayer', thisPlayer); //Emit this player to all clients logged in
+
 												}
 											})
 										}

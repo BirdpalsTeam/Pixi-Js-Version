@@ -12,7 +12,6 @@ exports.Player = class Player{
 		this.mouseY = 492;
 		this.message = "";
 		this.movePlayerInterval;
-		this.isDev = false;
 		this.items = items;
 		this.bio = biography;
 		this.friends = friends;

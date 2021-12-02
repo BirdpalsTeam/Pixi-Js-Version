@@ -19,7 +19,7 @@ const add_friend = require('./add_friend');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 const rateLimiter = new RateLimiterMemory({points: 3, duration: 1});
 
-exports.connect = (io, PlayFabServer, PlayFabAdmin, client) => {
+exports.connect = (io, session, PlayFabServer, PlayFabAdmin, client) => {
 	var roomsJson = fs.readFileSync('./serverData/Utils/roomsJSON.json');
 	var rooms = JSON.parse(roomsJson);
 	for(let roomInJson in rooms){
@@ -33,6 +33,8 @@ exports.connect = (io, PlayFabServer, PlayFabAdmin, client) => {
 	var players = new Array();
 	var devTeamJson = fs.readFileSync('./serverData/Utils/devTeam.json');
 	var devTeam = JSON.parse(devTeamJson);
+	var modTeamJson = fs.readFileSync('./serverData/Utils/modTeam.json');
+	var modTeam = JSON.parse(modTeamJson);
 	var IPBanned = new Array();
 	server_utils.getPlayersInSegment('1B7192766262CE36').then((response)=>{ //push the ip of the banned players to the IPBanned array, please don't log them.
 		let bannedList = response.data.PlayerProfiles;
@@ -52,6 +54,20 @@ exports.connect = (io, PlayFabServer, PlayFabAdmin, client) => {
 			})
 		}
 	}).catch(console.log);
+
+	let modDir = fs.readdirSync(`${__dirname}/../../public/Moderation`);
+	var modScripts = new Array();
+	modDir.filter((fileName) =>{
+		modScripts.push(`Moderation/${fileName}`);
+	})
+	
+	let devDir = fs.readdirSync(`${__dirname}/../../public/Devs`);
+	var devScripts = new Array();
+	devDir.filter((fileName) =>{
+		devScripts.push(`Devs/${fileName}`);
+	})
+
+io.use(session);
 
 io.on('connection', (socket) => {
 	console.log('A user connected: ' + socket.id);
@@ -94,13 +110,20 @@ io.on('connection', (socket) => {
 			socket.isAFK = setTimeout(()=>{	//AFK cronometer
 				socket.disconnect(true);
 			}, AFKTime)
-		}).catch(() =>{
+
+			if(socket.isMod !== undefined || socket.isDev !== undefined){
+				socket.emit('M', modScripts); //Send scripts to mods
+			}
+			if(socket.isDev !== undefined){
+				socket.emit('M', devScripts);
+			}
+		}).catch((err) =>{
 			console.log(`This jerk is trying to DoS our game ${socket.playerId}`);
 		})
 		
 	})
 	
-	login.run(io, socket, players, Player, rooms, devTeam, IPBanned, PlayFabServer, PlayFabAdmin, profanity, server_utils, rateLimiter);
+	login.run(io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, PlayFabServer, PlayFabAdmin, profanity, server_utils, rateLimiter);
 
 	movement_messages.run(socket, rooms, AFKTime, client, server_discord, server_utils, profanity, rateLimiter); //Rooms command is here
 
