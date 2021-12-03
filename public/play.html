@@ -11,6 +11,7 @@
 	<body>
 
 		<div id ="stage">
+			<audio src="Audio/Songbirds.mp3" id='backgroundMusic' autoplay loop></audio>
 			<center>
 				<img id='loading' src="./Website Assets/morph_2.gif" class="loading">
 				<canvas id="game"></canvas>
@@ -19,7 +20,7 @@
 					<div id="reportingDiv">
 						<img id="reportEnvelopeBackground" src="Sprites/hud/reportEnvelope.png">
 						<h1 id="REPORTtext">REPORT</h1>
-						<textarea id="reportInput" class="reportInput" maxlength="200"></textarea>
+						<textarea id="reportInput" class="reportInput" maxlength="200" placeholder="Write the reason of the report here..."></textarea>
 						<img id="reportSubmit" src="Sprites/hud/submitreport.png">
 					</div>
 					<div id="submittedDiv" hidden>
@@ -50,7 +51,7 @@
 
 		<div id='Scripts'>
 			<script src="/socket.io/socket.io.js"></script>
-			<script src='./Modules/PlayFabClientApi.js'></script>
+			<script src="./Modules/PlayFabClientApi.js"></script>
 			<script src="./Modules/jquery.min.js"></script>
 			<script src="./Modules/lodash.min.js"></script>
 			<script src="./Modules/pixi.min.js"></script>
@@ -67,6 +68,7 @@
 			<script src="./Scripts/States.js"></script>
 			<script src="./Scripts/pre-loader.js"></script>
 			<script src="./Scripts/Classes_O.js"></script>
+			<script src="./Scripts/Classes_PC.js"></script>
 			<script src="./Scripts/Classes_P.js"></script>
 			<script src="./Scripts/Classes_G.js"></script>
 			<script src="./Scripts/Classes_I.js"></script>
