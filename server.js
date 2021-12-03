@@ -54,24 +54,23 @@ app.use(compression({filter: function (req, res) {
 app.get('/', (req, res) =>{
 	return res.sendFile('public/index.html');
 });
-app.get('/*', (req, res) =>{
+app.get('/*', (req, res, next) =>{
 	//if(req.get('cf-ray') != undefined && req.headers['x-forwarded-proto'] == 'https'){
 
 	//}else{
 	//	return	res.status(404).send('Not found');
 	//} uncomment at final build
-
+	res.setHeader(
+		"Permissions-Policy",
+		'fullscreen=(self), geolocation=(self), camera=(), microphone=(), payment=(), autoplay=(self), document-domain=()'
+	);
+	
 	let options = {
         root: path.join(__dirname, 'public')
     };
 	let split = req.path.split('/');
 	let fileName = split[split.length - 1];
 
-	res.setHeader(
-		"Permissions-Policy",
-		'fullscreen=(self), geolocation=(self), camera=(), microphone=(), payment=(), autoplay=(self), document-domain=()'
-	);
-	
 	if(split[1] === 'Moderation'){
 		let player = io.sockets.sockets[req.headers.cookie.split('io=')[1]]; //Get socket player
 		if(player !== undefined && player.handshake.address === req.ip){ //Guarantee that the connection is secure
@@ -98,22 +97,22 @@ app.get('/*', (req, res) =>{
 		}else{
 			return res.status(404).send(`Cannot GET /${fileName}`);
 		}
-	}else{
+	}else if(split[1] !== 'Audio'){
 		res.sendFile(decodeURI(req.path), options, function (err) {
 			if (err) {
 				return res.status(404).send(`Cannot GET /${fileName}`);
 			}
 		});
+	}else{
+		res.sendFile(path.join(__dirname, `public${decodeURI(req.path)}`))
 	}
 })
 
 
 //Websockets communication
-server_socket.connect(io, sharedsession(session), PlayFabServer, PlayFabAdmin, discordBot.client);
+server_socket.connect(io, sharedsession(session), PlayFabServer, PlayFabAdmin, discordBot.client, discordBot);
 
 //Start the server on port 3000
 http.listen(process.env.PORT || 3000, () => {
 	console.log('listening on *:3000');
 });
-//Discord
-discordBot.startBot(PlayFabServer);
