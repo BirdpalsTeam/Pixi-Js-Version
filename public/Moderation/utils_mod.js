@@ -2,7 +2,7 @@ let devCommands = [{command:'/ban', message:'Banning...'}, {command:'/unban', me
 
 command = function command(command, message){
 	let isDevCommand = getElementFromArrayByValue(command, 'command', devCommands);
-	if(localPlayer.isDev == true && isDevCommand != false){
+	if(isDevCommand !== false){
 		setLocalMessage(isDevCommand.message, true);	//Make the bird say words like Banning...
 	}
 	socket.emit(command, message);	//Send command to the server
