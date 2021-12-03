@@ -9,6 +9,7 @@ class Room extends PIXI.Sprite{
 			this.getObjects(currentRoom.loader.resources);
 		});
 		this.loader.onError.add(this.loadingError);
+		this.music = document.getElementById('backgroundMusic');
 		new Foreground(room);
 	}
 
@@ -27,6 +28,7 @@ class Room extends PIXI.Sprite{
 			this.loader.load();
 		}
 		this.getCollision(newRoom);
+		this.music.src = `${audioSrc}${resources.allRooms.data[newRoom].music}`;
 	}
 
 	loadingError(e){
