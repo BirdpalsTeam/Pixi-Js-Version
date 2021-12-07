@@ -87,7 +87,7 @@ class RoomObject extends PIXI.Sprite{
 		let thisData = resources[room].data.frames[RoomObject];
 		this.x = thisData.position.x;
 		this.y = thisData.position.y;
-		this.zIndex = this.y + (this.height / 2);
+		this.zIndex = this.y + (this.height / 2) + 10;
 	}
 }
 

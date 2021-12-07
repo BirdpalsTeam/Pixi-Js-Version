@@ -129,17 +129,23 @@ window.onload = ()=>{
 		fontWeight: fontWeight}
 	}
 
-	let c_rect = app.view.getBoundingClientRect();
-	$('#bioInput').css({
-		top: c_rect.top + 180 + window.scrollY,
-		left: c_rect.left + 510
-	});
+	posElement('#inputElements', 630, 325);
+	posElement('#bioInput', 180, 510);
+	posElement('#chatbox', 5, 5);
+	posElement('#reportDiv', 40, 300);
 }
 
 window.onresize = ()=>{
+	posElement('#inputElements', 630, 325);
+	posElement('#bioInput', 180, 510);
+	posElement('#chatbox', 5, 5);
+	posElement('#reportDiv', 40, 300);
+}
+
+function posElement(elementId, top, left){
 	let c_rect = app.view.getBoundingClientRect();
-	$('#bioInput').css({
-		top: c_rect.top + 180 + window.scrollY,
-		left: c_rect.left + 510
-	});
+	$(elementId).css({
+		top: c_rect.top + top + window.scrollY,
+		left: c_rect.left + left + window.scrollX
+	})
 }

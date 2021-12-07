@@ -38,7 +38,6 @@ socket.on('loggedIn', (receivedPlayers) =>{	//Server response to "Im Ready";
 })
 
 socket.on('newPlayer', (player) => {
-	console.log(player)
 	let tempPlayer = new Player(player);
 	playersInGame.push(tempPlayer); 
 	objects.addChild(tempPlayer);

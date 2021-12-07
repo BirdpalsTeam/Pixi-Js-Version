@@ -40,6 +40,9 @@ class Book extends PIXI.Sprite{
 			this.visible = true;
 			transparentBg.visible = true;
 			chatbox.hidden = true;
+			playersInGame.forEach((player) =>{
+				player.interactive = false;
+			})
 			this.customOpen();
 		}
 	}
@@ -58,6 +61,9 @@ class Book extends PIXI.Sprite{
 		transparentBg.visible = false;
 		this.isOpen = false;
 		isChatBoxToggle == true ? chatbox.hidden = true : chatbox.hidden = false;
+		playersInGame.forEach((player) =>{
+			player.interactive = true;
+		})
 		setTimeout(() => {
 			localPlayer.canMove = true;
 		}, 10);
