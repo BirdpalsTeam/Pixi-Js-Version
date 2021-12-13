@@ -50,14 +50,14 @@ app.use(compression({filter: function (req, res) {
 }}));
 
 //Send the public files to the domain
-//app.use(express.static('public', {dotfiles: 'allow'}));
 app.get('/', (req, res) =>{
 	return res.sendFile(path.join(__dirname, `public/index.html`), function(err){
 		if(err){
-			return res.status(404).send(`Cannot Get /${fileName}`);
+			return res.status(404).send(`Cannot Get /index.html`);
 		}
 	})
 });
+
 app.get('/*', (req, res, next) =>{
 	//if(req.get('cf-ray') != undefined && req.headers['x-forwarded-proto'] == 'https'){
 
