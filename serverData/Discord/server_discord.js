@@ -9,7 +9,7 @@ function embedText(who, message){
 	return new Discord.MessageEmbed().addField(who, message);
 }
 let prefix = '!';
-exports.startBot = (PlayFabServer) => {
+exports.startBot = (PlayFabServer, IPBanned, io) => {
 	client.on('message' ,(message) =>{
 		if (!message.content.startsWith(prefix) || message.author.bot) return;
 		if(message.member.roles.cache.has('760901805436960800') || message.member.roles.cache.has('845072414048387102')){
@@ -32,7 +32,7 @@ exports.startBot = (PlayFabServer) => {
 						if(IPban == 'true'){
 							server_utils.getPlayerInternalData(banPlayerId).then((response)=>{
 								banRequest = {
-									Bans: [{PlayFabId: banPlayerId, Reason: reason, IPAddress: response.data.Data.ipaddress.Value}]
+									Bans: [{PlayFabId: banPlayerId, Reason: reason, IPAddress: response.data.Data.IPAddress.Value}]
 								}
 								ban();
 							}).catch((error)=>{
@@ -50,7 +50,7 @@ exports.startBot = (PlayFabServer) => {
 						if(IPban == 'true'){
 							server_utils.getPlayerInternalData(banPlayerId).then((response)=>{
 								banRequest = {
-									Bans: [{DurationInHours: timeOfBan, PlayFabId: banPlayerId, Reason: reason, IPAddress: response.data.Data.ipaddress.Value}]
+									Bans: [{DurationInHours: timeOfBan, PlayFabId: banPlayerId, Reason: reason, IPAddress: response.data.Data.IPAddress.Value}]
 								}
 								ban();
 							}).catch((error)=>{
@@ -65,10 +65,18 @@ exports.startBot = (PlayFabServer) => {
 						
 					}
 					function ban(){
+						let removeBannedPlayerSocket;
+						Object.keys(io.sockets.sockets).forEach((socket) =>{
+							if(io.sockets.sockets[socket].playerId == banPlayerId){
+								removeBannedPlayerSocket = io.sockets.sockets[socket];
+							}
+						})
+						if(removeBannedPlayerSocket.isDev !== undefined || removeBannedPlayerSocket.isMod !== undefined) return;
 						PlayFabServer.BanUsers(banRequest, (error, result) =>{	//Ban request to playfab
 							if(result !== null){
 								let dateUTC = new Date(Date.now()).toUTCString();
 								message.channel.send(embedText(dateUTC, banMessage).setColor('#FF0000'));
+								if(IPBanned !== undefined){IPBanned.push(banRequest.Bans[0].IPAddress)};
 							}else if(error !== null){
 								console.log(error)
 							}
@@ -88,12 +96,17 @@ exports.startBot = (PlayFabServer) => {
 					let PlayFabId =  response.data.UserInfo.PlayFabId;
 					PlayFabServer.RevokeAllBansForUser({PlayFabId: PlayFabId}, (error, result) =>{	//Revoke All Bans from user
 						if(result !== null){
-							console.log(result);
 							server_utils.removePlayerTag(PlayFabId, 'isBanned').then(()=>{
 								let channel = client.channels.cache.get('845331071322423318');
 								let dateUTC = new Date(Date.now()).toUTCString();
 								let embed = embedText(dateUTC, banPlayerName + ' was unbanned :)');
 								channel.send(embed.setColor("#00FF00"));
+								server_utils.getPlayerInternalData(PlayFabId).then((response)=>{
+									let playerIP = response.data.Data.IPAddress.Value;
+									if(IPBanned.indexOf(playerIP) != -1){
+										server_utils.removeElementFromArray(playerIP, IPBanned);
+									}
+								}).catch(console.log);
 							}).catch((error) =>{
 								console.log(error);
 							})

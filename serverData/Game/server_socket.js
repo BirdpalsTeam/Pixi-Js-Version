@@ -19,7 +19,7 @@ const add_friend = require('./add_friend');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 const rateLimiter = new RateLimiterMemory({points: 3, duration: 1});
 
-exports.connect = (io, session, PlayFabServer, PlayFabAdmin, client) => {
+exports.connect = (io, session, PlayFabServer, PlayFabAdmin, client, discordBot) => {
 	var roomsJson = fs.readFileSync('./serverData/Utils/roomsJSON.json');
 	var rooms = JSON.parse(roomsJson);
 	for(let roomInJson in rooms){
@@ -58,13 +58,17 @@ exports.connect = (io, session, PlayFabServer, PlayFabAdmin, client) => {
 	let modDir = fs.readdirSync(`${__dirname}/../../public/Moderation`);
 	var modScripts = new Array();
 	modDir.filter((fileName) =>{
-		modScripts.push(`Moderation/${fileName}`);
+		if(fileName.includes('.js')){
+			modScripts.push(`Moderation/${fileName}`);
+		}
 	})
 	
 	let devDir = fs.readdirSync(`${__dirname}/../../public/Devs`);
 	var devScripts = new Array();
 	devDir.filter((fileName) =>{
-		devScripts.push(`Devs/${fileName}`);
+		if(fileName.includes('.js')){
+			devScripts.push(`Devs/${fileName}`);
+		}
 	})
 
 io.use(session);
@@ -136,5 +140,8 @@ io.on('connection', (socket) => {
 	moderation_commands.run(io, socket, server_utils, AFKTime, rooms, devTeam, IPBanned, PlayFabServer, client, server_discord);
 
 	add_friend.run(socket, AFKTime, PlayFabServer, server_utils, rateLimiter);
+}) // io connection end
 
-})} // io connection end
+//Discord
+discordBot.startBot(PlayFabServer, IPBanned, io);
+}
