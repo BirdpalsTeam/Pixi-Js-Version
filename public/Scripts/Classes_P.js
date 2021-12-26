@@ -8,10 +8,8 @@ class Player extends PIXI.Sprite{
 		this.x = player.x;
 		this.y = player.y;
 		this.anchor.x = 0.5;
-		this.anchor.y = 1;
+		this.anchor.y = 0.95;
 
-		this.width = player.width;
-		this.height = player.height;
 		this.mouseX = player.mouseX;
 		this.mouseY = player.mouseY;
 
@@ -103,7 +101,6 @@ class Player extends PIXI.Sprite{
 		let velX = Math.cos(angleToMove) * speed;
 		let velY = Math.sin(angleToMove) * speed;
 		let timeToPlayerReachDestination = Math.floor(dx/velX);
-		let totalTime = timeToPlayerReachDestination;
 		let rest = timeToPlayerReachDestination % 20;
 		let collided = false;
 		
@@ -219,7 +216,8 @@ class Player extends PIXI.Sprite{
 			fontName: fontName,
 			align: 'center'
 		});
-		usernameText.anchor.set(0.5, 0.2);
+		usernameText.anchor.set(0.5, 1);
+		usernameText.scale.set(0.85, 0.85);
 		this.addChild(usernameText);
 	}
 }

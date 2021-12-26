@@ -58,4 +58,4 @@ var update = function(){
 	elapsed = now;
   
 };
-//update(); easter egg
+//if(app.ticker.FPS >= 25) update();
