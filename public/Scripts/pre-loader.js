@@ -32,6 +32,7 @@ window.onload = ()=>{
 	app.loader.add('town', `${JSONSrc}town.json`);
 	app.loader.add('bird_blue', `${JSONSrc}bird_blue.json`);
 	app.loader.add('bubble_message', `${spritesSrc}hud/bubble.png`);
+	app.loader.add('items', `${JSONSrc}items.json`);
 	app.loader.add('Arial', `${fontSrc}Arial.fnt`);
 	app.loader.add('BCaslon_font', `${fontSrc}CaslonAntique-BoldItalic.fnt`);
 	app.loader.add('Caslon_font', `${fontSrc}CaslonAntique-BoldItalic.ttf`);

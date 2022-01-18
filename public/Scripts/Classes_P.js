@@ -7,8 +7,7 @@ class Player extends PIXI.Sprite{
 		this.isMoving = player.isMoving;
 		this.x = player.x;
 		this.y = player.y;
-		this.anchor.x = 0.5;
-		this.anchor.y = 0.95;
+		this.anchor.set(0.5, 0.95);
 
 		this.mouseX = player.mouseX;
 		this.mouseY = player.mouseY;
@@ -27,7 +26,10 @@ class Player extends PIXI.Sprite{
 		this.bubble.scale.set(0.8, 0.8)
 		this.messageTimeout;
 		//items
-		this.items = player.items;
+		this.gear = player.gear;
+		this.gearImgs = new Array();
+		this.updateGear();
+		//ID
 		this.id == sessionStorage.playerId ? this.local = true : this.local = false;
 		//card
 		this.bio = player.bio;
@@ -75,6 +77,11 @@ class Player extends PIXI.Sprite{
 			lookingInt = 3;
 		}
 		this.texture = resources.bird_blue.textures[`${lookingInt}.png`];
+		if(this.gearImgs.length > 0){
+			this.gearImgs.forEach((item) =>{
+				item.updateFrame(lookingInt);
+			})
+		}
 	}
 
 	move(){
@@ -133,13 +140,15 @@ class Player extends PIXI.Sprite{
 					}
 				});
 				collided = true;
-				this.anchor.y = 1;
+				//this.anchor.y = 0.95;
+				//itemJump(this.gearImgs, true);
 				return this.movePlayerInterval.destroy();
 			}
 			if(collided == false){
 				this.x = newX;
 				this.y = newY;
-				this.anchor.y = littleJump(timeToPlayerReachDestination);
+				//this.anchor.y = littleJump(timeToPlayerReachDestination);
+				//itemJump(this.gearImgs, timeToPlayerReachDestination);
 				timeToPlayerReachDestination--;
 				this.zIndex = this.y;
 			}
@@ -151,14 +160,34 @@ class Player extends PIXI.Sprite{
 			let y;
 			if(currentDuration > 20){
 				//Modular equation of sine graph
-				//f(x) = |0.3 * sin( ((2 * π) / 40) * x)| + 0.9
-				y = Math.abs(0.3 * Math.sin( ((2 * Math.PI) / 40) * currentDuration) ) + 0.9;
+				//f(x) = |0.3 * sin( ((2 * π) / 40) * x)| + 0.95
+				y = Math.abs(0.3 * Math.sin( ((2 * Math.PI) / 40) * currentDuration) ) + 0.95;
 			}else if(currentDuration <=20 || currentDuration == rest){
 				//Vertical launch equation
 				//y = 0.1 * x - 5 / 2
-				y = (1 / (0.1 * currentDuration - 5 * Math.pow(currentDuration, 2)) ) + 1.2;
+				y = (1 / (0.1 * currentDuration - 5 * Math.pow(currentDuration, 2)) ) + 1.15;
 			}
 			return y;
+		}
+
+		function itemJump(gearImgs, currentDuration){
+			if(gearImgs.length > 0){
+				gearImgs.forEach((item) =>{
+					if(currentDuration === true){
+						item.anchor.y = 0.5;
+					}else{
+						if(currentDuration > 20){
+							//Modular equation of sine graph
+							//f(x) = |0.6 * sin( ((2 * π) / 40) * x)| + 0.5
+							item.anchor.y = Math.abs(1.1 * Math.sin( ((2 * Math.PI) / 40) * currentDuration) ) + 0.5;
+						}else if(currentDuration <=20 || currentDuration == rest){
+							//Vertical launch equation
+							//y = 0.1 * x - 5 / 2
+							item.anchor.y = (1 / (0.1 * currentDuration - 5 * Math.pow(currentDuration, 2)) ) + 0.7;
+						}
+					}
+				})
+			}
 		}
 	}
 
@@ -220,5 +249,17 @@ class Player extends PIXI.Sprite{
 		usernameText.anchor.set(0.5, 1);
 		usernameText.scale.set(0.85, 0.85);
 		this.addChild(usernameText);
+	}
+
+	updateGear(){
+		this.gearImgs.forEach((item) =>{
+			this.removeChild(item);
+		})
+		this.gearImgs = new Array();
+		this.gear.forEach((item) =>{
+			let item_sprite = new Item(item.ItemId);
+			this.addChild(item_sprite);
+			this.gearImgs.push(item_sprite);
+		})
 	}
 }

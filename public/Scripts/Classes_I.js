@@ -32,6 +32,7 @@ class Inventory extends Book{
 		}
 		command('/updateInventory', this.items);
 		this.isChanging = true;
+		localPlayer.updateGear();
 	}
 
 	drawUsername(){
@@ -90,7 +91,7 @@ class Inventory extends Book{
 		}
 		this.drawGridBound();
 	}
-                     
+
 	drawGridBound(){
 		this.graphics = new PIXI.Graphics();
 		this.graphics.lineStyle(5, 0x000000);
@@ -155,7 +156,7 @@ class Cell extends PIXI.Graphics{
 
 		this.on('pointerover', (event) => {
 			this.fillGray();
-			if(this.isSelected == true) this.icon.tint = 0x575757;
+			if(this.isSelected == true)	this.icon.tint = 0x575757; 
 		});
 		this.on('pointerout', (event) =>{
 			this.clearGray();
@@ -168,9 +169,26 @@ class Cell extends PIXI.Graphics{
 			if(this.isSelected == false){
 				this.fillGray();
 				this.isSelected = true;
+				if (getElementFromArrayByValue(this.item.ItemId, 'ItemId', localPlayer.gear) == false){
+					localPlayer.gear.forEach((item) =>{
+						if(item.ItemClass === this.item.ItemClass){
+							removeElementFromArray(item, localPlayer.gear);
+							this.parent.cells.forEach((cell) =>{
+								if(cell.item !== undefined && cell.item.ItemId === item.ItemId){
+									cell.isSelected = false;
+									cell.clearGray();
+								}
+							})
+						}
+					})
+					localPlayer.gear.push(this.item);
+				}
 			}else{
 				this.isSelected = false;
 				this.clearGray();
+				if (getElementFromArrayByValue(this.item.ItemId, 'ItemId', localPlayer.gear) !== false){
+					removeElementFromArray(this.item, localPlayer.gear);
+				}
 			}
 		});
 	}

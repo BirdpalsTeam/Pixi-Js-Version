@@ -74,7 +74,7 @@ class BirdColorReplacement extends PIXI.Filter{
 	constructor(newColor, epsilon){
 		if(epsilon == undefined){epsilon = 0.4}
 		super(null, resources.colorReplacementFrag.data, {
-			originalColor: PIXI.utils.hex2rgb(0x359ade),
+			originalColor: PIXI.utils.hex2rgb(0x3db0ff),
 			newColor: PIXI.utils.hex2rgb(newColor),
 			epsilon: epsilon
 		})
