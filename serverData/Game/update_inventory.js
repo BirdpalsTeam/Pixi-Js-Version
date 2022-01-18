@@ -21,7 +21,7 @@ exports.run = (socket, rooms, AFKTime, PlayFabAdmin, PlayFabServer, server_utils
 										updatedPlayfab += 1;
 										items.push({ItemClass: item.ItemClass, ItemId: item.ItemId, isEquipped: item.CustomData});
 										if(updatedPlayfab == equippedItems){ //Checks if all items had been updated
-											player.items = items;
+											player.gear = items;
 											socket.broadcast.to(socket.gameRoom).emit('playerUpdatedGear', {player: thisPlayerId, gear: items});
 											socket.emit('changingInventory', false);
 										}
@@ -36,7 +36,7 @@ exports.run = (socket, rooms, AFKTime, PlayFabAdmin, PlayFabServer, server_utils
 									if(result !== null){
 										updatedPlayfab += 1;
 										if(updatedPlayfab == equippedItems){//Checks if all items had been updated
-											player.items = items;
+											player.gear = items;
 											socket.broadcast.to(socket.gameRoom).emit('playerUpdatedGear', {player: thisPlayerId, gear: items});
 											socket.emit('changingInventory', false);
 										}
