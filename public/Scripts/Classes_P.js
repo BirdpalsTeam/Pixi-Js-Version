@@ -7,7 +7,7 @@ class Player extends PIXI.Sprite{
 		this.isMoving = player.isMoving;
 		this.x = player.x;
 		this.y = player.y;
-		this.anchor.set(0.5, 0.95);
+		this.anchor.set(0.5, 0.7);
 
 		this.mouseX = player.mouseX;
 		this.mouseY = player.mouseY;
@@ -246,7 +246,7 @@ class Player extends PIXI.Sprite{
 			fontName: fontName,
 			align: 'center'
 		});
-		usernameText.anchor.set(0.5, 1);
+		usernameText.anchor.set(0.5, -1.5);
 		usernameText.scale.set(0.85, 0.85);
 		this.addChild(usernameText);
 	}
