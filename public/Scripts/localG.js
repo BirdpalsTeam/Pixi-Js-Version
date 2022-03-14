@@ -13,11 +13,13 @@ form.addEventListener('submit', function(e) {
 		}
 });
 
+/*
 document.getElementById('bird_color').addEventListener("input", function(c){
 	let color = c.target.value.replace('#',"0x");
 	localPlayer.filters = [new BirdColorReplacement(color)];
 	inventory.big_bird.updateColor();
 }, false);
+*/
 
 inventory = new Inventory();
 document.getElementById('inventory').onclick = function(){

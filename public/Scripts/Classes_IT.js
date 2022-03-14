@@ -1,11 +1,11 @@
 class Item extends PIXI.Sprite{
-	constructor(item){
+	constructor(item, frame){
 		super(resources.items.textures[`${item}_4.png`]);
-		this.anchor.set(0.5, 0.5);
+		this.anchor.set(0.5, -0.5);
 		this.item = item;
 		this.itemData = resources.items.data;
-		this.y = this.itemData.frames[`${item}_4.png`].position.y;
-		this.x = this.itemData.frames[`${item}_4.png`].position.x;
+		this.y = this.itemData.frames[`${item}_${frame}.png`].position.y;
+		this.x = this.itemData.frames[`${item}_${frame}.png`].position.x;
 	}
 
 	updateFrame(frame){

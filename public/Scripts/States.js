@@ -1,3 +1,16 @@
+var worldResources;
+function changeState(newState){
+	worldResources = {};
+	worldResources = app.loader.resources;
+	app.destroy();
+	app = newState;
+}
+function revertToWorld(){
+	app.destroy();
+	app = new WorldState(canvas);
+	resources = worldResources;
+}
+
 class State extends PIXI.Application{
 	constructor(htmlElement){
 		super({
@@ -7,10 +20,18 @@ class State extends PIXI.Application{
 		});
 		resources = this.loader.resources;
 		this.stage.on('pointerdown', (evt)=>{
-			if(this.onClick !== undefined){
-				this.onClick(evt);
-			}
+			this.onClick(evt);
 		})
+		this.stage.on('pointermove', (evt)=>{
+			this.onMouseMove(evt);
+		})
+
+	}
+
+	onClick(evt){
+
+	}
+	onMouseMove(evt){
 
 	}
 }
@@ -27,7 +48,16 @@ class WorldState extends State{
 		
 			interaction: this.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
 		})
+
 		this.stage.addChild(this.viewport);
+	}
+
+	addWorldStuff(){
+		this.viewport.addChild(rooms);
+		this.viewport.addChild(objects);
+		this.viewport.addChild(foreground);
+		this.viewport.addChild(particles);
+		this.viewport.addChild(UI);
 	}
 
 	onClick(evt){
@@ -62,18 +92,47 @@ class PingPong extends State{
 		this.loader.add('racket', `Minigames/Ping Pong/racket.png`);
 		this.loader.add('tabble', `Minigames/Ping Pong/tabble.png`);
 		this.loader.add('ball', `Minigames/Ping Pong/ball.png`);
-		this.loader.add('gsap', `Minigames/Ping Pong/gsap.min.js`);
-		this.loader.add('game', `Minigames/Ping Pong/game.js`);
 		this.loader.load();
 
+		this.loaded = false;
+
 		this.loader.onComplete.add(()=>{
-			for(let file in resources){
-				if(resources[file].extension === 'js'){
-					let script = document.createElement('script');
-					script.setAttribute('src', resources[file].url);
-					document.getElementById('Scripts').appendChild(script);
-				}
-			}
+			this.racket = new Racket('user');
+			//Hey Gase. Just letting you know that it's spelt "Table". I still think you should leave it like this though, it's pretty funny.
+			this.tabble = new Tabble();
+			this.ball = new Ball();
+
+			this.loaded = true;
+
+			app.stage.addChild(this.tabble);
+			app.stage.addChild(this.ball);
+			app.stage.addChild(this.racket);
+
+			/*
+			this.getBatsSpeed = setInterval(function(){
+				//console.log(`Speed X: ${racket.speedX}px/s, Y: ${racket.speedY}px/s`);
+				this.racket.lastRotation = this.racket.rotation;
+				if(this.ball.lastHit !== 'user') this.racket.fx = this.racket.fy = 0;
+			}, 200);
+			*/
 		})
+
+		
+	}
+
+	onMouseMove(evt){
+		this.racket.x = evt.data.global.x;
+		if(evt.data.global.y > 200) this.racket.y = evt.data.global.y;
+		this.racket.collider.x = this.racket.x;
+		this.racket.collider.y = this.racket.y;
+		let radian = Math.PI / 180;
+		//How does it work? I honestly don't know :/
+		//My guess is that we divide the distance between the racket and the center of the canvas to a number that indicates the radius of the rotation
+		//Then we convert this distance to radians by getting the minimum value between the distance and the maximum angle.
+		//And we get the maximum value between the angle if it was for the right and the maximum angle of the left.
+		//Math.max(Math.min((racket.x - (canvas.width / 2)) / 200, 90 * radian), -90 * radian)
+		let angleToLook = Math.max(Math.min((this.racket.x - 500) / 200, 90 * radian), -90 * radian);
+		this.racket.rotation = angleToLook;
+		this.racket.update(this.ball, evt.data.originalEvent);
 	}
 }

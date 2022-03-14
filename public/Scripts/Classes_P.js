@@ -18,6 +18,8 @@ class Player extends PIXI.Sprite{
 		this.canDrawUsername = true;
 		this.collider = new Point(this.x, this.y);
 		this.hitArea = new PIXI.Polygon([-40,-130,40,-130,40,-20,-40,-20]);
+
+		this.lookingInt = 4;
 		//Bubble
 		this.bubble = this.addChild(new PIXI.Sprite(resources.bubble_message.texture));
 		this.bubble.visible = false;
@@ -59,27 +61,27 @@ class Player extends PIXI.Sprite{
 
 		let angleToLook = Math.atan2(dy, dx) * 180 / Math.PI;
 
-		let lookingInt = 1;
+		this.lookingInt = 1;
 
 		if(angleToLook < 0) angleToLook += 360;
 
 		if(angleToLook > 70 && angleToLook<= 110){	//look to the front
-			lookingInt = 4;
+			this.lookingInt = 4;
 		}else if (angleToLook > 110 && angleToLook <= 220){//look to the left
-			lookingInt = 6;
+			this.lookingInt = 6;
 		}else if(angleToLook > 220 && angleToLook <= 260){ //look to the upper left
-			lookingInt = 2;
+			this.lookingInt = 2;
 		}else if(angleToLook > 260 && angleToLook <= 281 ){//look to the back
-			lookingInt = 1;
+			this.lookingInt = 1;
 		}else if(angleToLook > 281 && angleToLook <= 330){//look to the upper right
-			lookingInt = 5;
+			this.lookingInt = 5;
 		}else if(angleToLook > 330 && angleToLook <= 360 || angleToLook <= 70){//look to the right
-			lookingInt = 3;
+			this.lookingInt = 3;
 		}
-		this.texture = resources.bird_blue.textures[`${lookingInt}.png`];
+		this.texture = resources.bird_blue.textures[`${this.lookingInt}.png`];
 		if(this.gearImgs.length > 0){
 			this.gearImgs.forEach((item) =>{
-				item.updateFrame(lookingInt);
+				item.updateFrame(this.lookingInt);
 			})
 		}
 	}
@@ -257,7 +259,7 @@ class Player extends PIXI.Sprite{
 		})
 		this.gearImgs = new Array();
 		this.gear.forEach((item) =>{
-			let item_sprite = new Item(item.ItemId);
+			let item_sprite = new Item(item.ItemId,this.lookingInt);
 			this.addChild(item_sprite);
 			this.gearImgs.push(item_sprite);
 		})

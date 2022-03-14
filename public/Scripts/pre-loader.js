@@ -1,3 +1,5 @@
+var canvas = document.getElementById("game");
+
 var app, resources;
 var serverIsReady, ticket, playerId;
 var socket = io();
@@ -25,9 +27,14 @@ var particles;
 
 var chatbox = document.getElementById("chatbox");
 var isChatBoxToggle = false;
+
 window.onload = ()=>{
 	app = new WorldState(document.getElementById('game'));
-	
+
+	loadWorld();
+}
+
+function loadWorld(){
 	app.loader.add('allRooms', `${JSONSrc}roomsJSON.json`);
 	app.loader.add('town', `${JSONSrc}town.json`);
 	app.loader.add('bird_blue', `${JSONSrc}bird_blue.json`);
@@ -64,7 +71,7 @@ window.onload = ()=>{
 	function loadingError(e){
 		console.error(`There was an error when loading: ${e.message}`);
 	}
-	
+
 	function finishedPreLoading(){
 		objects = new PIXI.Container();
 		objects.name = 'Objects';
