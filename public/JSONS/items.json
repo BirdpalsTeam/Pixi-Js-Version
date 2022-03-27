@@ -1,9 +1,289 @@
 {
   "frames": {
-    "eye_patch_3.png": {
+    "pirate_hat_3.png": {
       "frame": {
         "x": 0,
         "y": 0,
+        "w": 82,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 52
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 1.5,
+        "y": -114
+      }
+    },
+    "pirate_hat_6.png": {
+      "frame": {
+        "x": 0,
+        "y": 52,
+        "w": 83,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 83,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 83,
+        "h": 51
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -1,
+        "y": -114
+      }
+    },
+    "black_glasses_6.png": {
+      "frame": {
+        "x": 82,
+        "y": 0,
+        "w": 85,
+        "h": 29
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 85,
+        "h": 29
+      },
+      "sourceSize": {
+        "w": 85,
+        "h": 29
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -3,
+        "y": -86
+      }
+    },
+    "black_shades_1.png": {
+      "frame": {
+        "x": 82,
+        "y": 29,
+        "w": 71,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 71,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 71,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0.5,
+        "y": -70
+      }
+    },
+    "pirate_hat_5.png": {
+      "frame": {
+        "x": 83,
+        "y": 45,
+        "w": 82,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 52
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -1,
+        "y": -112
+      }
+    },
+    "black_shades_5.png": {
+      "frame": {
+        "x": 153,
+        "y": 29,
+        "w": 23,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 23,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 23,
+        "h": 15
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 22.5,
+        "y": -74
+      }
+    },
+    "black_glasses_3.png": {
+      "frame": {
+        "x": 167,
+        "y": 0,
+        "w": 84,
+        "h": 28
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 84,
+        "h": 28
+      },
+      "sourceSize": {
+        "w": 84,
+        "h": 28
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 3,
+        "y": -86
+      }
+    },
+    "pirate_hat_2.png": {
+      "frame": {
+        "x": 83,
+        "y": 97,
+        "w": 82,
+        "h": 51
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 51
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 51
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -1,
+        "y": -111
+      }
+    },
+    "pirate_hat_1.png": {
+      "frame": {
+        "x": 0,
+        "y": 103,
+        "w": 82,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 47
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": -114
+      }
+    },
+    "pirate_hat_4.png": {
+      "frame": {
+        "x": 82,
+        "y": 148,
+        "w": 82,
+        "h": 47
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 47
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 47
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0.5,
+        "y": -114
+      }
+    },
+    "eye_patch_3.png": {
+      "frame": {
+        "x": 0,
+        "y": 150,
         "w": 52,
         "h": 42
       },
@@ -28,10 +308,122 @@
         "y": -93
       }
     },
-    "black_shades_3.png": {
+    "eye_patch_6.png": {
       "frame": {
         "x": 0,
-        "y": 42,
+        "y": 192,
+        "w": 52,
+        "h": 42
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 52,
+        "h": 42
+      },
+      "sourceSize": {
+        "w": 52,
+        "h": 42
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -12,
+        "y": -94
+      }
+    },
+    "eye_patch_4.png": {
+      "frame": {
+        "x": 164,
+        "y": 148,
+        "w": 57,
+        "h": 37
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 57,
+        "h": 37
+      },
+      "sourceSize": {
+        "w": 57,
+        "h": 37
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -5.5,
+        "y": -90
+      }
+    },
+    "black_glasses_5.png": {
+      "frame": {
+        "x": 176,
+        "y": 28,
+        "w": 82,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 31
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -1,
+        "y": -84
+      }
+    },
+    "black_glasses_2.png": {
+      "frame": {
+        "x": 258,
+        "y": 28,
+        "w": 80,
+        "h": 31
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 31
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 31
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 2,
+        "y": -84
+      }
+    },
+    "black_shades_3.png": {
+      "frame": {
+        "x": 251,
+        "y": 0,
         "w": 77,
         "h": 25
       },
@@ -58,7 +450,7 @@
     },
     "black_shades_6.png": {
       "frame": {
-        "x": 52,
+        "x": 328,
         "y": 0,
         "w": 76,
         "h": 25
@@ -84,66 +476,66 @@
         "y": -79
       }
     },
-    "black_shades_1.png": {
+    "black_glasses_1.png": {
       "frame": {
-        "x": 52,
-        "y": 25,
-        "w": 71,
-        "h": 16
+        "x": 165,
+        "y": 59,
+        "w": 66,
+        "h": 29
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 71,
-        "h": 16
+        "w": 66,
+        "h": 29
       },
       "sourceSize": {
-        "w": 71,
-        "h": 16
+        "w": 66,
+        "h": 29
       },
       "pivot": {
         "x": 0.5,
         "y": 0.5
       },
       "position": {
-        "x": 0.5,
-        "y": -70
+        "x": 0,
+        "y": -83
       }
     },
-    "eye_patch_6.png": {
+    "black_glasses_4.png": {
       "frame": {
-        "x": 77,
-        "y": 41,
-        "w": 52,
-        "h": 42
+        "x": 165,
+        "y": 88,
+        "w": 65,
+        "h": 30
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 52,
-        "h": 42
+        "w": 65,
+        "h": 30
       },
       "sourceSize": {
-        "w": 52,
-        "h": 42
+        "w": 65,
+        "h": 30
       },
       "pivot": {
         "x": 0.5,
         "y": 0.5
       },
       "position": {
-        "x": -12,
-        "y": -94
+        "x": -0.5,
+        "y": -84
       }
     },
     "black_shades_4.png": {
       "frame": {
-        "x": 128,
-        "y": 0,
+        "x": 165,
+        "y": 118,
         "w": 62,
         "h": 24
       },
@@ -165,97 +557,13 @@
       },
       "position": {
         "x": 0,
-        "y": -82
-      }
-    },
-    "black_shades_5.png": {
-      "frame": {
-        "x": 128,
-        "y": 24,
-        "w": 23,
-        "h": 15
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 23,
-        "h": 15
-      },
-      "sourceSize": {
-        "w": 23,
-        "h": 15
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      },
-      "position": {
-        "x": 22.5,
-        "y": -74
-      }
-    },
-    "black_shades_2.png": {
-      "frame": {
-        "x": 151,
-        "y": 24,
-        "w": 22,
-        "h": 15
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 22,
-        "h": 15
-      },
-      "sourceSize": {
-        "w": 22,
-        "h": 15
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      },
-      "position": {
-        "x": -20,
-        "y": -75
-      }
-    },
-    "eye_patch_4.png": {
-      "frame": {
-        "x": 0,
-        "y": 67,
-        "w": 57,
-        "h": 37
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 57,
-        "h": 37
-      },
-      "sourceSize": {
-        "w": 57,
-        "h": 37
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      },
-      "position": {
-        "x": -5.5,
-        "y": -90
+        "y": -77
       }
     },
     "eye_patch_5.png": {
       "frame": {
-        "x": 57,
-        "y": 83,
+        "x": 164,
+        "y": 185,
         "w": 57,
         "h": 28
       },
@@ -282,8 +590,8 @@
     },
     "eye_patch_2.png": {
       "frame": {
-        "x": 0,
-        "y": 104,
+        "x": 52,
+        "y": 195,
         "w": 56,
         "h": 27
       },
@@ -308,10 +616,38 @@
         "y": -88
       }
     },
+    "black_shades_2.png": {
+      "frame": {
+        "x": 52,
+        "y": 150,
+        "w": 22,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 22,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 22,
+        "h": 15
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -20,
+        "y": -75
+      }
+    },
     "eye_patch_1.png": {
       "frame": {
-        "x": 56,
-        "y": 111,
+        "x": 221,
+        "y": 142,
         "w": 57,
         "h": 25
       },
@@ -333,7 +669,7 @@
       },
       "position": {
         "x": 3.5,
-        "y": -88
+        "y": -90
       }
     }
   },
@@ -343,8 +679,8 @@
     "image": "../Sprites/items/items.png",
     "format": "RGBA8888",
     "size": {
-      "w": 190,
-      "h": 136
+      "w": 404,
+      "h": 234
     },
     "scale": 1
   }
