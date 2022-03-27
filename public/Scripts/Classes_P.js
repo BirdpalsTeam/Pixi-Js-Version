@@ -20,17 +20,18 @@ class Player extends PIXI.Sprite{
 		this.hitArea = new PIXI.Polygon([-40,-130,40,-130,40,-20,-40,-20]);
 
 		this.lookingInt = 4;
+		
+		//items
+		this.gear = player.gear;
+		this.gearImgs = new Array();
+		this.updateGear();
 		//Bubble
 		this.bubble = this.addChild(new PIXI.Sprite(resources.bubble_message.texture));
 		this.bubble.visible = false;
 		this.bubble.x = -84;
 		this.bubble.y = -182;
-		this.bubble.scale.set(0.8, 0.8)
+		this.bubble.scale.set(0.8, 0.8);
 		this.messageTimeout;
-		//items
-		this.gear = player.gear;
-		this.gearImgs = new Array();
-		this.updateGear();
 		//ID
 		this.id == sessionStorage.playerId ? this.local = true : this.local = false;
 		//card
@@ -204,30 +205,30 @@ class Player extends PIXI.Sprite{
 			});
 
 			//Set original numbers
-			this.bubble.height = 75.2;
-			this.bubble.width = 209.6;
-			this.bubble.y = -182;
-			this.bubble.x = -84;
+			this.bubble.height = 52.64;
+			this.bubble.width = 146.72;
+			this.bubble.y = -140;
+			this.bubble.x = -64;
 
 			//Make some configs
 			bitmapText.anchor.set(0.5, 0.5);
-			bitmapText.x += 2.4*(this.bubble.width / 4);
-			bitmapText.y = 27;
+			bitmapText.x += 3.4*(this.bubble.width / 4);
+			bitmapText.y = 30;
 			
 			this.bubble.addChild(bitmapText);
 
 			//Stretch bubble in case of bigg messages
 			if(bitmapText.height >= this.bubble.height - 5 || bitmapText.height >= this.bubble.width - 5){
 				let heightDifference = bitmapText.height - (this.bubble.height - 5);
-				let widthDifference = bitmapText.width - this.bubble.width;
+				let widthDifference = bitmapText.width - this.bubble.width - 75;
 				this.bubble.height += heightDifference + 20;
 				this.bubble.width += widthDifference + 20;
 				bitmapText.height -= heightDifference + 5;
 				bitmapText.width -= widthDifference + 5;
 				bitmapText.y += 7;
 				bitmapText.x += 7;
-				this.bubble.y -= this.bubble.height - 75.2;
-				this.bubble.x -= this.bubble.width - 209.6;
+				this.bubble.y -= this.bubble.height - 60.2;
+				this.bubble.x -= this.bubble.width - 200.6;
 			}
 			this.bubble.visible = true;
 			this.hideBubble();
