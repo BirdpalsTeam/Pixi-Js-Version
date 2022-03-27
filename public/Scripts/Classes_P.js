@@ -264,5 +264,10 @@ class Player extends PIXI.Sprite{
 			this.addChild(item_sprite);
 			this.gearImgs.push(item_sprite);
 		})
+		if(this.gearImgs.length > 0){
+			this.gearImgs.forEach((item) =>{
+				item.updateFrame(this.lookingInt);
+			})
+		}
 	}
 }

@@ -64,7 +64,6 @@ function loadWorld(){
 	app.loader.load();
 
 	function showLoading(e){
-		console.log(e.progress);
 		loading_screen.hidden = false;
 	}
 	
