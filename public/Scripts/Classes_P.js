@@ -232,6 +232,9 @@ class Player extends PIXI.Sprite{
 
 			this.bubble.visible = true;
 			this.bubbleTail.visible = true;
+
+    		PIXI.sound.play("bubblePop");
+
 			this.hideBubble();
 		}
 	}

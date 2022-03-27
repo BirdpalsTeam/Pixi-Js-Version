@@ -56,6 +56,7 @@ function loadWorld(){
 	app.loader.add('snowTexture', `${hudSrc}Snow100.png`);
 	app.loader.add('colorReplacementFrag', `Scripts/colorReplace.frag`);
 	app.loader.add('shader', `Scripts/shader.frag`);
+	app.loader.add('bubblePop', `${audioSrc}bubblePop.wav`)
 	
 	app.loader.onProgress.add(showLoading);
 	app.loader.onComplete.add(finishedPreLoading);
