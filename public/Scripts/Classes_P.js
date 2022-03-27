@@ -26,12 +26,18 @@ class Player extends PIXI.Sprite{
 		this.gearImgs = new Array();
 		this.updateGear();
 		//Bubble
-		this.bubble = this.addChild(new PIXI.Sprite(resources.bubble_message.texture));
+		let tempBubble = new PIXI.Graphics();
+		tempBubble.beginFill(0xffffff);
+		tempBubble.drawRoundedRect(0, 0, 200, 100, 20);
+		this.bubble = this.addChild(tempBubble);
 		this.bubble.visible = false;
-		this.bubble.x = -84;
-		this.bubble.y = -182;
-		this.bubble.scale.set(0.8, 0.8);
 		this.messageTimeout;
+		//Bubble Tail
+		let tempBubbleTail = new PIXI.Graphics();
+		tempBubbleTail.beginFill(0xffffff);
+		tempBubbleTail.drawPolygon([-10,0,10,0,0,10]);
+		this.bubbleTail = this.addChild(tempBubbleTail);
+		this.bubbleTail.visible = false;
 		//ID
 		this.id == sessionStorage.playerId ? this.local = true : this.local = false;
 		//card
@@ -196,41 +202,36 @@ class Player extends PIXI.Sprite{
 
 	drawBubble(){
 		if(this.message != undefined){
+			this.removeChild(this.bitmapText);
+
 			this.message = wordwrapjs.wrap(this.message, {width: 19, break: true});
-			let bitmapText = new PIXI.BitmapText(this.message,{
+			this.bitmapText = new PIXI.BitmapText(this.message,{
 				fontName: 'Arial',
-				fontSize: 24,
+				fontSize: 14,
 				align: 'center',
 				tint: 0x000000
 			});
 
-			//Set original numbers
-			this.bubble.height = 52.64;
-			this.bubble.width = 146.72;
-			this.bubble.y = -140;
-			this.bubble.x = -64;
+			//Sets the Size and Position of the Text
+			this.bitmapText.anchor.set(0.5, 0.5);
+			this.bitmapText.x = 0;
+			this.bitmapText.y = -120;
 
-			//Make some configs
-			bitmapText.anchor.set(0.5, 0.5);
-			bitmapText.x += 3.4*(this.bubble.width / 4);
-			bitmapText.y = 30;
+			//Sets the Size and Position of the Bubble depending on the Text
+			//Checks if the Text is too big, and if so, sets the text box bigger
+			if(this.bitmapText.width > 100){	this.bubble.width = this.bitmapText.width + 20; } else{this.bubble.width = 100;}
+			if(this.bitmapText.height > 30){	this.bubble.height = this.bitmapText.height + 20; } else{this.bubble.height = 35;}
+			//Shapes don't have anchors so we have to manually set the X and Y to centre
+			this.bubble.y = this.bitmapText.y - this.bubble.height / 2;
+			this.bubble.x = this.bitmapText.x - this.bubble.width / 2;
+
+			//Sets the position of the Bubble's Tail, a seperate shape
+			this.bubbleTail.y = this.bubble.y + this.bubble.height;
 			
-			this.bubble.addChild(bitmapText);
+			this.addChild(this.bitmapText);
 
-			//Stretch bubble in case of bigg messages
-			if(bitmapText.height >= this.bubble.height - 5 || bitmapText.height >= this.bubble.width - 5){
-				let heightDifference = bitmapText.height - (this.bubble.height - 5);
-				let widthDifference = bitmapText.width - this.bubble.width - 75;
-				this.bubble.height += heightDifference + 20;
-				this.bubble.width += widthDifference + 20;
-				bitmapText.height -= heightDifference + 5;
-				bitmapText.width -= widthDifference + 5;
-				bitmapText.y += 7;
-				bitmapText.x += 7;
-				this.bubble.y -= this.bubble.height - 60.2;
-				this.bubble.x -= this.bubble.width - 200.6;
-			}
 			this.bubble.visible = true;
+			this.bubbleTail.visible = true;
 			this.hideBubble();
 		}
 	}
@@ -240,7 +241,8 @@ class Player extends PIXI.Sprite{
 			clearTimeout(this.messageTimeout);
 			this.message = undefined;
 			this.bubble.visible = false;
-			this.bubble.removeChildAt(0);
+			this.bubbleTail.visible = false;
+			this.removeChild(this.bitmapText);
 		}, 10000);
 	}
 
