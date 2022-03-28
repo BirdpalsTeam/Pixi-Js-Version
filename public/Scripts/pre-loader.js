@@ -157,3 +157,6 @@ function posElement(elementId, top, left){
 		left: c_rect.left + left + window.scrollX
 	})
 }
+
+
+PIXI.settings.RENDER_OPTIONS.antialias = true;
