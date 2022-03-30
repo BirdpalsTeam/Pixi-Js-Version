@@ -20,6 +20,7 @@ exports.run = (socket, AFKTime, PlayFabServer, server_utils, rateLimiter)=>{
                                 i = freeItems.length;
                                 let tempItemInstanceId = result.data.ItemGrantResults[0].ItemInstanceId;
                                 PlayFabServer.UpdateUserInventoryItemCustomData({PlayFabId:socket.playerId,ItemInstanceId:tempItemInstanceId,Data: {"isEquipped": "false"}});
+                                socket.emit("resetInventory", '');
                             }).catch(console.log);
                         }
                     }
