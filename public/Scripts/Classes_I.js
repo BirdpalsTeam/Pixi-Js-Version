@@ -3,6 +3,7 @@ class Inventory extends Book{
 		super(localPlayer);
 		this.isChanging = false;
 		UI.addChild(this);
+		this.items = null;
 	}
 
 	customOpen(){
@@ -49,14 +50,19 @@ class Inventory extends Book{
 	}
 
 	getInventory(){
-		PlayFabClientSDK.GetUserInventory({SessionTicket: sessionStorage.ticket}, (result, error) =>{
-			if(result !== null){
-				this.items = result.data.Inventory;
-				this.loadInventory();
-			}else if(error !== null){
-				console.log(error);
-			}
-		})
+		if(this.items == null){ //If the player has already got the inventory, no need to get it again
+			PlayFabClientSDK.GetUserInventory({SessionTicket: sessionStorage.ticket}, (result, error) =>{
+				if(result !== null){
+					this.items = result.data.Inventory;
+					this.loadInventory();
+				}else if(error !== null){
+					console.log(error);
+				}
+			})
+		}
+		else{
+			this.loadInventory();
+		}
 	}
 
 	loadInventory(){

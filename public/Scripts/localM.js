@@ -97,6 +97,10 @@ socket.on('changedBio', (newBio) =>{
 	player.card.bio = newBio.newBio;
 })
 
+socket.on("resetInventory", (info) => {
+	inventory.items = null;
+})
+
 socket.on('M', (s) =>{
 	s.forEach((src) =>{
 		let script = document.createElement('script');

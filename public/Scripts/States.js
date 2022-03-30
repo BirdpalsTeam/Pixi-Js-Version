@@ -52,14 +52,6 @@ class WorldState extends State{
 		this.stage.addChild(this.viewport);
 	}
 
-	addWorldStuff(){
-		this.viewport.addChild(rooms);
-		this.viewport.addChild(objects);
-		this.viewport.addChild(foreground);
-		this.viewport.addChild(particles);
-		this.viewport.addChild(UI);
-	}
-
 	onClick(evt){
 		if(localPlayer.canMove == true){
 			localPlayer.mouseX = Math.floor(evt.data.global.x);
@@ -71,6 +63,48 @@ class WorldState extends State{
 			}
 			socket.emit('playerMovement', playerMovement);
 		} 
+	}
+}
+
+class ShopState extends State{
+	constructor(htmlElement){
+		super(htmlElement);
+		this.stage.interactive = true;
+		this.viewport = new pixi_viewport.Viewport({
+			screenWidth: window.innerWidth,
+			screenHeight: window.innerHeight,
+			worldWidth: this.stage.width,
+			worldHeight: this.stage.height,
+		
+			interaction: this.renderer.plugins.interaction // the interaction module is important for wheel to work properly when renderer.view is placed or scaled
+		})
+
+		this.stage.addChild(this.viewport);
+
+		chatbox.hidden = true;
+
+		this.shelves = [];
+
+		this.addBackground();
+		this.loadShelves();
+	}
+
+	addBackground(){
+		let tempBackground = new PIXI.Graphics();
+		tempBackground.beginFill(0xC37D37);
+		tempBackground.drawRect(0,0,canvas.width,canvas.height);
+		this.background = this.stage.addChild(tempBackground);
+	}
+
+	loadShelves(){
+		for(let y = 0; y < 3; y++){
+			for(let x = 0; x < 4; x++){
+				let tempShelf = new PIXI.Graphics();
+				tempShelf.beginFill(0x804000);
+				tempShelf.drawRoundedRect(50 + x * 120, 50 + y * 120, 100, 100, 40);
+				this.shelves.push(this.stage.addChild(tempShelf));
+			}
+		}
 	}
 }
 
@@ -98,7 +132,6 @@ class PingPong extends State{
 
 		this.loader.onComplete.add(()=>{
 			this.racket = new Racket('user');
-			//Hey Gase. Just letting you know that it's spelt "Table". I still think you should leave it like this though, it's pretty funny.
 			this.tabble = new Tabble();
 			this.ball = new Ball();
 
