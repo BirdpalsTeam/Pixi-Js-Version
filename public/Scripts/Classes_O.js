@@ -35,7 +35,7 @@ class Book extends PIXI.Sprite{
 	}
 
 	open(){
-		if(this.isOpen != true){
+		if(!this.isOpen){
 			localPlayer.canMove = false;
 			this.visible = true;
 			transparentBg.visible = true;
@@ -43,6 +43,7 @@ class Book extends PIXI.Sprite{
 			playersInGame.forEach((player) =>{
 				player.interactive = false;
 			})
+			this.isOpen = true;
 			this.customOpen();
 		}
 	}

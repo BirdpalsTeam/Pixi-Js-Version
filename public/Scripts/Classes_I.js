@@ -147,18 +147,6 @@ class Cell extends PIXI.Graphics{
 		this.loadingSprite.x = x + 42.5;
 		this.loadingSprite.y = y + 38;
 		this.loadingSprite.ticker = new PIXI.Ticker();
-		
-		
-		this.iconLoader = new PIXI.Loader();
-
-		this.iconLoader.onComplete.add((e) =>{
-			PIXI.Loader.shared.resources[this.item.ItemId] = e.resources[this.item.ItemId];
-			this.stopLoadingAnimation();
-			this.addIcon();
-		});
-		this.iconLoader.onError.add((e) =>{
-			console.error(`There was an error when loading: ${e.message}`);
-		});
 
 		this.on('pointerover', (event) => {
 			this.fillGray();
@@ -214,19 +202,24 @@ class Cell extends PIXI.Graphics{
 
 	loadIcons(item){
 		if(item.CustomData.isEquipped == 'true') this.isSelected = true;
-		if(PIXI.Loader.shared.resources[item.ItemId] == undefined){
-			this.iconLoader.add(item.ItemId, `${spritesSrc}items/${item.ItemClass}/${item.ItemId}_icon.png`);
-			this.iconLoader.load();
-		}else{
-			this.stopLoadingAnimation();
-			this.addIcon();
-		}
+		this.stopLoadingAnimation();
+		this.addIcon(item);
 	}
 
-	addIcon(){
-		this.icon = new PIXI.Sprite(PIXI.Loader.shared.resources[this.item.ItemId].texture);
-		this.icon.x = this.nx;
-		this.icon.y = this.ny;
+	addIcon(item){
+		this.icon = new PIXI.Sprite(resources.items.textures[`${item.ItemId}_4.png`]);
+		if(this.icon.width > this.icon.height){ //Finds whether the width or height of the item is bigger, 
+												//then sets the size of the items to the cell size while keeping the aspect ratio
+			this.icon.height /= this.icon.width / this.nw;
+			this.icon.width = this.nw;
+		}
+		else{
+			this.icon.width *= this.icon.height / this.nh;
+			this.icon.height = this.nh;
+		}
+		this.icon.anchor.set(0.5,0.5);
+		this.icon.x = this.nx + this.width / 2;
+		this.icon.y = this.ny + this.height / 2;
 		if(this.isSelected == true) this.fillGray();
 		this.addChild(this.icon);
 	}
