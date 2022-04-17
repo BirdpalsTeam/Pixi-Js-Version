@@ -10,7 +10,7 @@ var loading_screen = document.getElementById('loading');
 
 var objects, localPlayer, UI, inventory;
 var transparentBg = new PIXI.Sprite(PIXI.Texture.WHITE);
-var playersInGame = new Array();
+var playersInGame = new Map();
 
 var JSONSrc = 'JSONS/';
 var spritesSrc = 'Sprites/';

@@ -28,9 +28,9 @@ socket.on('loggedIn', (receivedPlayers) =>{	//Server response to "Im Ready";
 			localPlayer = new Player(player);
 			objects.addChild(localPlayer);
 		} 
-		else if(player.id != playerId && !checkIfElementIsInArray(player, 'id', playersInGame)){
+		else if(player.id != playerId && !playersInGame.has(player.id)){
 			let tempPlayer = new Player(player);
-			playersInGame.push(tempPlayer);
+			playersInGame.set(player.id, tempPlayer);
 			objects.addChild(tempPlayer);
 			delete tempPlayer;
 		}
@@ -39,13 +39,13 @@ socket.on('loggedIn', (receivedPlayers) =>{	//Server response to "Im Ready";
 
 socket.on('newPlayer', (player) => {
 	let tempPlayer = new Player(player);
-	playersInGame.push(tempPlayer); 
+	playersInGame.set(tempPlayer.id, tempPlayer); 
 	objects.addChild(tempPlayer);
 });
 
 socket.on('byePlayer', (playerThatLeft) =>{
-	let playerG = getElementFromArray(playerThatLeft, playerThatLeft.id, playersInGame);
-	removeElementFromArray(playerG, playersInGame);
+	let playerG = playersInGame.get(playerThatLeft.id);
+	playersInGame.delete(playerThatLeft.id)
 	objects.removeChild(playerG);
 });
 
@@ -55,11 +55,11 @@ socket.on('joinRoom', (joinRoom) =>{
 
 socket.on('leaveRoom', () => {
 	objects.removeChildren(0, objects.children.length);
-	playersInGame = new Array();
+	playersInGame = new Map();
 })
 
 socket.on('playerIsMoving', (player) =>{
-	let playerG = getElementFromArray(player, player.id, playersInGame);
+	let playerG = playersInGame.get(player.id);
 	playerG.mouseX = player.mouseX;
 	playerG.mouseY = player.mouseY
 	playerG.move();
@@ -82,7 +82,7 @@ socket.on('playerSaid', (player) => {
 });
 
 socket.on('changedBio', (newBio) =>{
-	let player = getElementFromArrayByValue(newBio.player, 'id', playersInGame);
+	let player = playersInGame.get(newBio.player);
 	player.bio = newBio.newBio;
 })
 
