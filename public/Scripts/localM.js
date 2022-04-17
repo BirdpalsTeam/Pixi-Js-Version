@@ -109,6 +109,10 @@ socket.on('M', (s) =>{
 	})
 })
 
+socket.on("resetInventory", (info) => {
+	inventory.items = null;
+})
+
 console.log("%cATTENTION!","color: #FF2D00; font-family:sans-serif; font-size: 45px; font-weight: 900; text-shadow: #000 3px 3px 3px");
 console.log(`%cIf someone told you to copy/paste here, DON'T DO IT!`,"color: #F8FF00; font-family:sans-serif; font-size: 18px; font-weight: 900; text-shadow: #000 2px 2px 3px");
 console.log(`%cThey might be trying to STEAL YOUR ACCOUNT!`,"color: #FCE92F; font-family:sans-serif; font-size: 14px; font-weight: 900; text-shadow: #000 2px 2px 2px");
