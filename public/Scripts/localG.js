@@ -6,12 +6,18 @@ input = document.getElementById("input");
 
 form.addEventListener('submit', function(e) {
 	e.preventDefault();
-		if (input.value) {	
-			setLocalMessage(input.value);
-			addToChatbox(`${localPlayer.username}: ${input.value}`);
-			input.value = '';
-		}
+	sendMessage();
 });
+document.getElementById("SendButton").onclick = function(){
+	sendMessage();
+}
+function sendMessage(){
+	if (input.value) {	
+		setLocalMessage(input.value);
+		addToChatbox(`${localPlayer.username}: ${input.value}`);
+		input.value = '';
+	}
+}
 
 /*
 document.getElementById('bird_color').addEventListener("input", function(c){
@@ -33,19 +39,6 @@ function addToChatbox(chatboxtext){
 	chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-function toggleChatbox(){
-	if(chatbox.hidden == true){
-		chatbox.hidden = false;
-		isChatBoxToggle = false;
-	}
-	else{
-		chatbox.hidden = true;
-		isChatBoxToggle = true;
-	}
-}
-
-document.getElementById('toggleChatbox').onclick = function(){toggleChatbox();};
-
 var emitter = new SnowParticle();
 var elapsed = Date.now();
 var update = function(){
@@ -61,3 +54,35 @@ var update = function(){
   
 };
 //if(app.ticker.FPS >= 25) update();
+
+
+//Settings
+var settingsDiv = document.getElementById("SettingsDiv");
+function toggleSettings(){
+	settingsDiv.hidden = !settingsDiv.hidden;
+}
+document.getElementById("SettingsButton").onclick = function(){toggleSettings();}
+
+var uncheckedImg = new Image();
+uncheckedImg.src = "Sprites/hud/unchecked.png"
+var checkedImg = new Image();
+checkedImg.src = "Sprites/hud/checked.png"
+
+function toggleCheckbox(box){
+	console.log(box);
+	return box.src;
+}
+
+function toggleChatbox(){
+	if(chatbox.hidden == true){
+		chatbox.hidden = false;
+		isChatBoxToggle = false;
+	}
+	else{
+		chatbox.hidden = true;
+		isChatBoxToggle = true;
+	}
+}
+
+chatBoxCheck = document.getElementById('ChatBoxCheck')
+chatBoxCheck.onclick = function(){toggleChatbox();chatBoxCheck.src = toggleCheckbox(chatBoxCheck)};
