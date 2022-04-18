@@ -4,7 +4,27 @@ PlayFab.settings.titleId = GAME_ID;
 PlayFab.settings.developerSecretKey = '1YP575JK5RZOJFRMMSAT5DWWOG9FI6967KNH3YCCIKFQT7SNK7';
 
 functions = {
-	getElementFromArray:	function getElementFromArray(element, customIdentifier, array){
+	replacer: function replacer(key, value) {
+		//Credits: https://stackoverflow.com/users/696535/pawel
+		if(value instanceof Map) {
+		  return {
+			dataType: 'Map',
+			value: [...value],
+		  };
+		} else {
+		  return value;
+		}
+	},
+	reviver: function reviver(key, value){
+		//Credits: https://stackoverflow.com/users/696535/pawel
+		if(typeof value === 'object' && value !== null) {
+			if (value.dataType === 'Map') {
+				return new Map(value.value);
+			}
+		}
+		return value;
+	},
+	getElementFromArray: function getElementFromArray(element, customIdentifier, array){
 		let tempElement;
 		array.forEach(arrayElement =>{
 			if(arrayElement[customIdentifier] === element[customIdentifier]){

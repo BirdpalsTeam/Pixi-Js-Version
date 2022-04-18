@@ -2,8 +2,8 @@ exports.run = (io, socket, server_utils, AFKTime , rooms, devTeam, IPBanned, Pla
 	socket.on('/report', (message) =>{
 		if(socket.playerId == undefined) return;
 		server_utils.resetTimer(socket, AFKTime);
-		let thisPlayerRoom = server_utils.getElementFromArrayByValue(socket.gameRoom, 'name', Object.values(rooms));
-		let reporter = server_utils.getElementFromArrayByValue(socket.playerId, 'id', thisPlayerRoom.players); //The user who is reporting
+		let thisPlayerRoom = rooms[socket.gameRoom];
+		let reporter = thisPlayerRoom.players.get(socket.playerId); //The user who is reporting
 
 		message = server_utils.separateString(message);
 		let playerName = message[0];
@@ -151,7 +151,7 @@ exports.run = (io, socket, server_utils, AFKTime , rooms, devTeam, IPBanned, Pla
 	socket.on('/remove', (message) =>{
 		if(socket.playerId == undefined) return;
 		server_utils.resetTimer(socket, AFKTime);
-		let thisPlayerRoom = server_utils.getElementFromArrayByValue(socket.gameRoom, 'name', Object.values(rooms));
+		let thisPlayerRoom = rooms[socket.gameRoom];
 		
 		if(socket.isDev !== undefined || socket.isMod !== undefined){
 			let removePlayerObject = server_utils.getElementFromArrayByValue(message, 'username', thisPlayerRoom.players);

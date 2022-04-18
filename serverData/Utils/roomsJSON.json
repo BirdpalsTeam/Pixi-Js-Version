@@ -27,7 +27,7 @@
         448
       ]
     ],
-    "players": [],
+    "players": {"dataType":"Map","value":[]},
     "exit": [
       505,
       280,
@@ -63,7 +63,7 @@
         449
       ]
     ],
-    "players": [],
+    "players": {"dataType":"Map","value":[]},
     "exit": [
       876,
       351,
@@ -119,7 +119,7 @@
         338
       ]
     ],
-    "players": [],
+    "players": {"dataType":"Map","value":[]},
     "exit": [
       710,
       430,

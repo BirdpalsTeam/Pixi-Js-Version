@@ -21,7 +21,7 @@ const rateLimiter = new RateLimiterMemory({points: 3, duration: 1});
 
 exports.connect = (io, session, PlayFabServer, PlayFabAdmin, client, discordBot) => {
 	var roomsJson = fs.readFileSync('./serverData/Utils/roomsJSON.json');
-	var rooms = JSON.parse(roomsJson);
+	var rooms = JSON.parse(roomsJson, server_utils.reviver);
 	for(let roomInJson in rooms){
 		let room = rooms[roomInJson];
 		let convexPolygons = decomp.quickDecomp(room.colliders);
@@ -30,7 +30,7 @@ exports.connect = (io, session, PlayFabServer, PlayFabAdmin, client, discordBot)
 			room.collision.push(new Polygon(0, 0, polygon))
 		});
 	}
-	var players = new Array();
+	var players = new Map();
 	var devTeamJson = fs.readFileSync('./serverData/Utils/devTeam.json');
 	var devTeam = JSON.parse(devTeamJson);
 	var modTeamJson = fs.readFileSync('./serverData/Utils/modTeam.json');
@@ -80,51 +80,58 @@ io.on('connection', (socket) => {
 	}else{
 		socket.ip = socket.handshake.headers['cf-connecting-ip'];
 	}uncomment at final build*/
-	
+
+	socket.use((packet, next) => {
+		let eventName = packet[0];
+		
+		if(eventName !== 'playerMovement' || eventName !== 'disconnect'){
+			rateLimiter.consume(socket.id).then(() =>{
+				next();
+			}).catch((error) => {
+				console.error(`rateLimiter error with ${socket.id}: ${error}`)
+				next(new Error('Request limit exceeded.'));
+			})
+		}
+	})
 	socket.on('disconnect', function(){
 		console.log('A user disconnected: ' + socket.id);
-		if(players.length > 0){
-			let disconnectedPlayer = server_utils.getElementFromArrayByValue(socket.playerId, 'id', players);
-			let thisPlayerRoom = server_utils.getElementFromArrayByValue(socket.gameRoom, 'name', Object.values(rooms));
+		if(players.size > 0){
+			let disconnectedPlayer = players.get(socket.playerId);
+			let thisPlayerRoom = rooms[socket.gameRoom];
 			if(disconnectedPlayer == false || thisPlayerRoom.players == false) return;
-			let thisPlayer = server_utils.getElementFromArrayByValue(socket.playerId, 'id', thisPlayerRoom.players);
+			let thisPlayer = thisPlayerRoom.players.get(disconnectedPlayer.id);
 			if(thisPlayer.isMoving == true){
 				clearInterval(thisPlayer.movePlayerInterval);
 				thisPlayer.isMoving == false;
 			}
 			socket.broadcast.to(socket.gameRoom).emit('byePlayer', disconnectedPlayer);
-			server_utils.removeElementFromArray(disconnectedPlayer, players);
-			server_utils.removeElementFromArray(disconnectedPlayer, thisPlayerRoom.players);
+			players.delete(disconnectedPlayer.id);
+			thisPlayerRoom.players.delete(thisPlayer.id);
 		}
 	})
 	
 	socket.on('Im Ready', () =>{
-		rateLimiter.consume(socket.id).then(()=>{
-			if(socket.playerId == undefined) return;
-			let thisPlayerRoom = server_utils.getElementFromArrayByValue(socket.gameRoom, 'name', Object.values(rooms));
-			//socket.io can't send running functions, so you need to pause the players movement
-			let preventRecursion = thisPlayerRoom.players;
-			preventRecursion.forEach(player=>{
-				if(player.isMoving == true){
-					clearInterval(player.movePlayerInterval);
-					player.isMoving == false;
-				}
-			})
-			socket.emit('loggedIn', (preventRecursion)); //there is a problem here
-			socket.isAFK = setTimeout(()=>{	//AFK cronometer
-				socket.disconnect(true);
-			}, AFKTime)
-
-			if(socket.isMod !== undefined || socket.isDev !== undefined){
-				socket.emit('M', modScripts); //Send scripts to mods
+		if(socket.playerId == undefined) return;
+		let thisPlayerRoom = rooms[socket.gameRoom];
+		//socket.io can't send running functions, so you need to pause the players movement
+		let preventRecursion = thisPlayerRoom.players;
+		preventRecursion.forEach( (player) => {
+			if(player.isMoving == true){
+				clearInterval(player.movePlayerInterval);
+				player.isMoving == false;
 			}
-			if(socket.isDev !== undefined){
-				socket.emit('M', devScripts);
-			}
-		}).catch((err) =>{
-			console.log(`This jerk is trying to DoS our game ${socket.playerId}`);
 		})
-		
+		socket.emit('loggedIn', (preventRecursion)); //there is a problem here
+		socket.isAFK = setTimeout(()=>{	//AFK cronometer
+			socket.disconnect(true);
+		}, AFKTime)
+
+		if(socket.isMod !== undefined || socket.isDev !== undefined){
+			socket.emit('M', modScripts); //Send scripts to mods
+		}
+		if(socket.isDev !== undefined){
+			socket.emit('M', devScripts);
+		}
 	})
 	
 	login.run(io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, PlayFabServer, PlayFabAdmin, profanity, server_utils, rateLimiter);
