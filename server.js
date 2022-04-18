@@ -75,45 +75,63 @@ app.get('/*', (req, res, next) =>{
 	let split = req.path.split('/');
 	let fileName = split[split.length - 1];
 
-	if(split[1] === 'Moderation'){
-		let player = io.sockets.sockets[req.headers.cookie.split('io=')[1]]; //Get socket player
-		if(player !== undefined && player.handshake.address === req.ip){ //Guarantee that the connection is secure
-			if(player.isDev !== undefined || player.isMod !== undefined){ // Guarantee it's not a normal player
-				res.sendFile(decodeURI(req.path), options, function (err) {
-					if (err) {
-						return res.status(404).send(`Cannot GET /${fileName}`);
-					}
-				});
-			}
-		}else{
-			return res.status(404).send(`Cannot GET /${fileName}`);
+	let player = null;
+	try {
+		try {
+			player = io.sockets.sockets[req.headers.cookie.split('io=')[1]]; //Get socket player
+		} catch (error) {
+			console.log(`Error getting player at express: ${error}`);
 		}
-	}else if(split[1] === 'Devs'){
-		let player = io.sockets.sockets[req.headers.cookie.split('io=')[1]]; //Get socket player
-		if(player !== undefined && player.handshake.address === req.ip){ //Guarantee that the connection is secure
-			if(player.isDev !== undefined){ // Guarantee it's not a normal player
-				res.sendFile(decodeURI(req.path), options, function (err) {
-					if (err) {
-						return res.status(404).send(`Cannot GET /${fileName}`);
+
+		switch(split[1]){
+			case 'Moderation':
+				if(player !== null && player.handshake.address === req.ip){ //Guarantee that the connection is secure
+					if(player.isDev !== undefined || player.isMod !== undefined){ // Guarantee it's not a normal player
+						res.sendFile(decodeURI(req.path), options, function (err) {
+							if (err) {
+								return res.status(404).send(`Cannot GET /${fileName}`);
+							}
+						});
 					}
-				});
-			}
-		}else{
-			return res.status(404).send(`Cannot GET /${fileName}`);
+				}else{
+					return res.status(404).send(`Cannot GET /${fileName}`);
+				}
+				break;
+	
+			case 'Devs':
+				if(player !== null && player.handshake.address === req.ip){ //Guarantee that the connection is secure
+					if(player.isDev !== undefined){ // Guarantee it's not a normal player
+						res.sendFile(decodeURI(req.path), options, function (err) {
+							if (err) {
+								return res.status(404).send(`Cannot GET /${fileName}`);
+							}
+						});
+					}
+				}else{
+					return res.status(404).send(`Cannot GET /${fileName}`);
+				}
+				break;
+
+			case 'Audio':
+				res.sendFile(decodeURI(req.path), options, function(err){
+					if(err){
+						return res.status(404).send(`Cannot Get /${fileName}`);
+					}
+				})
+				break;
+
+			default:
+				res.sendFile(decodeURI(req.path), options, function(err){
+					if(err){
+						return res.status(404).send(`Cannot Get /${fileName}`);
+					}
+				})
 		}
-	}else if(split[1] !== 'Audio'){
-		res.sendFile(decodeURI(req.path), options, function (err) {
-			if (err) {
-				return res.status(404).send(`Cannot GET /${fileName}`);
-			}
-		});
-	}else{
-		res.sendFile(path.join(__dirname, `public${decodeURI(req.path)}`), function(err){
-			if(err){
-				return res.status(404).send(`Cannot Get /${fileName}`);
-			}
-		})
+	} catch (error) {
+		console.log(`Error sending files to client: ${error}`);
+		return res.status(404).send('There was an error with the server.');
 	}
+
 })
 
 
