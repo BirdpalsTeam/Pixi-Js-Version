@@ -29,7 +29,7 @@ exports.run = (socket, rooms, AFKTime, client, server_discord, server_utils, pro
 		let channel = client.channels.cache.get('845340183984341075');
 		let dateUTC = new Date(Date.now()).toUTCString();
 		if(server_utils.separateString(message)[0].includes("/") == false){
-			if(profanity.filter(message) == true){
+			if(profanity.filter(message).isBadWord){
 				let messageObject = {
 					id: player.id,
 					message: ":("

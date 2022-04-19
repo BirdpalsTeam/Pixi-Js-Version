@@ -4,7 +4,7 @@ exports.run = (socket, rooms, AFKTime, PlayFabAdmin, profanity, server_utils, ra
 		server_utils.resetTimer(socket, AFKTime);
 		let thisPlayerRoom = rooms[socket.gameRoom];
 		let player = thisPlayerRoom.players.get(socket.playerId);
-		if(profanity.filter(newBio) == true){
+		if(profanity.filter(newBio).isBadWord){
 			newBio = 'I wish the world becomes a better place!';
 			updateBio();
 		}else{

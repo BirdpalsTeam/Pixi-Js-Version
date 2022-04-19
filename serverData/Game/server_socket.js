@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
 	socket.use((packet, next) => {
 		let eventName = packet[0];
 		
-		if(eventName !== 'playerMovement' || eventName !== 'disconnect'){
+		if(eventName != 'playerMovement' || eventName != 'disconnect'){
 			rateLimiter.consume(socket.id).then(() =>{
 				next();
 			}).catch((error) => {
