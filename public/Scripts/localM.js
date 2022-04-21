@@ -7,6 +7,16 @@ socket.on('disconnect', () => {
 	window.location.href = "index.html";
 });
 
+socket.on('error', (error) => {
+	switch(error){
+		case 'Request limit exceeded.':
+			alert(`Calm down buddy, don't click too fast!`);
+			break;
+		default:
+			console.error(error);
+	}
+})
+
 socket.on('errors', (error) =>{
 	alert(error);
 	window.location.href = "index.html";
