@@ -1,4 +1,4 @@
-exports.run = (socket, rooms, AFKTime, client, server_discord, server_utils, profanity, rateLimiter) => {
+exports.run = (socket, rooms, AFKTime, client, server_discord, server_utils, profanity) => {
 	socket.on('playerMovement', (playerMovement) =>{
 		if(socket.playerId == undefined) return;
 		server_utils.resetTimer(socket, AFKTime);
