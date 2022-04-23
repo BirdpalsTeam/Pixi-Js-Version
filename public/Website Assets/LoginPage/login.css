@@ -1,0 +1,90 @@
+body {
+	background: url('./background.png') no-repeat top center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.topnav {
+	background-color: #7b5e43;
+	overflow: hidden;
+	box-shadow: 0 6px 4px 0 rgba(0,0,0,.5);
+	margin: 0 -8px;
+	margin-top: -8px;
+}
+
+.topnav a {
+	float: left;
+	display: block;
+	color: #fff;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.topnav h1 {
+	float: left;
+	display: block;
+	color: #fff;
+	text-align: center;
+	padding: 14px 96px;
+	text-decoration: none;
+	font-size: 36px;
+	font-family: 'Fredoka One';
+}
+
+#logo {
+	position: relative;
+	max-width: 60%;
+	height: auto;
+}
+
+.loginBox {
+	margin: auto;
+	margin-top: 50px;
+	max-width: 70%;
+	background-color: #e7e0cd;
+	box-shadow: 0px 0px 100px rgba(0,0,0);
+	padding: 50px;
+	border-radius: 4px;
+	display: flex;
+}
+
+.input {
+	width: 70%;
+	height: 100px;
+	padding: 8px 8px;
+	margin: 8px 50px;
+	box-sizing: border-box;
+	background-color: #7b5e43;
+	border-radius: 6px;
+	border: 6px solid #583e26;
+	font-family: 'Fredoka One';
+	font-size: 30px;
+}
+
+.input, select, ::placeholder {
+	color: #fff;
+}
+
+#loginImage {
+	max-width: 30%;
+	border-radius: 4px;
+	margin: 0px 0px;
+}
+
+.button {
+	width: 70%;
+	height: 100px;
+	padding: 8px 8px;
+	margin: 8px 50px;
+	box-sizing: border-box;
+	background-color: #7b5e43;
+	border-radius: 6px;
+	border: 6px solid #583e26;
+	font-family: 'Fredoka One';
+	font-size: 30px;
+	color: #fff;
+}
