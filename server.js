@@ -104,10 +104,6 @@ app.get('/*', (req, res, next) => {
         sendFileModDev(false, true);
         break;
 
-      case 'Audio':
-        sendFile();
-        break;
-
       default:
         sendFile();
     }
