@@ -29,28 +29,36 @@
 					</div>
 					<img id="closeReport" src="Sprites/hud/closereport.png">
 				</div>
-				<div id="chatbox" class="chatbox" hidden></div>
+				<div id="chatbox" class="chatbox"></div>
 			</center>
 		</div>
 
 		<div id="inputElements" hidden="true" class="inputElements">
 			<form id="form" action="">
 				<input id="input" type="text" maxlength="50" autocomplete="off" placeholder="Type a Message..."/>
-				<button id="sendButton">Send</button>
+				<img id="SendButton" src="Sprites/hud/send.png" class="ButtonImg">
 			</form> 
 			<!--<div>
 				<input type="color" id="bird_color" name="head" value="#359ADE">
 				<label for="head">Bird Color</label>
 			</div>-->
-			<button id="inventory">Inventory</button>
-			<button id="toggleChatbox">Toggle Chatbox</button>
+			<img src="Sprites/hud/inventory.png" id="inventory" class="ButtonImg">
+			<img src="Sprites/hud/settings.png" id="SettingsButton" class="ButtonImg">
+			<div id="SettingsDiv" hidden>
+				<p class="settingsText">Music</p>
+				<p class="settingsText">Sound</p>
+				<p class="settingsText">Chat Box</p>
+				<img id="MusicCheck" src="Sprites/hud/checked.png" class="SettingsBox">
+				<img id="SoundCheck" src="Sprites/hud/checked.png" class="SettingsBox">
+				<img id="ChatBoxCheck" src="Sprites/hud/checked.png" class="SettingsBox">
+			</div>
 			<div id="debugDiv">
 				<p id="debugParagraph"></p>
 			</div>
 		</div>
 
 		<div id='Scripts'>
-			<script src="./Modules/socket.io.js"></script>
+			<script src="/socket.io/socket.io.js"></script>
 			<script src="./Modules/PlayFabClientApi.js"></script>
 			<script src="./Modules/jquery.min.js"></script>
 			<script src="./Modules/lodash.min.js"></script>
@@ -73,6 +81,8 @@
 			<script src="./Scripts/Classes_G.js"></script>
 			<script src="./Scripts/Classes_I.js"></script>
 			<script src="./Scripts/Classes_IT.js"></script>
+			<script src="./Minigames/Ping Pong/gsap.min.js"></script>
+			<script src="./Minigames/Ping Pong/game.js"></script>
 			<script src="./Scripts/pre-loader.js"></script>
 			<script src="./Scripts/localM.js"></script>
 		</div>
