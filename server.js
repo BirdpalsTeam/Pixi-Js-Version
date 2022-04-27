@@ -1,132 +1,124 @@
-// Server
+//Server
+var {random} = require('./serverData/Utils/random');
 const path = require('path');
-const compression = require('compression');
-const express = require('express');
-const helmet = require('helmet');
-const app = express();
+var compression = require('compression');
+var express = require('express');
+var helmet = require('helmet');
+var app = express();
 const http = require('http').Server(app);
-const { createIO } = require('birdpals/utils').config;
-const { io, session, sharedSession } = createIO(http);
-const { serverSocket } = require('birdpals/game');
+const io = require('socket.io')(http,{
+    cors: {
+        origin: "https://localhost:*",
+        methods: ["GET", "POST"]
+      },
+      pingInterval: 25000,
+      pingTimeout: 60000
+  }), session = require("express-session")({
+    secret: random(31),
+    resave: true,
+    saveUninitialized: true,
+    cookie: {sameSite: true}
+  }), sharedsession = require("express-socket.io-session");
 
+const server_socket = require('./serverData/Game/server_socket');
+//Playfab
+var PlayFab = require("./node_modules/playfab-sdk/Scripts/PlayFab/PlayFab");
+
+const { PlayFabServer, PlayFabAdmin } = require('playfab-sdk');
+const GAME_ID = '238E6';
+PlayFab.settings.titleId = GAME_ID;
+PlayFab.settings.developerSecretKey = '1YP575JK5RZOJFRMMSAT5DWWOG9FI6967KNH3YCCIKFQT7SNK7';
+//Discord
+const discordBot = require('./serverData/Discord/server_discord');
 app.enable('trust proxy');
 
-// Setups security headers
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        'script-src': ["'self'"],
-        'connect-src': ["'self'", '*.playfabapi.com'],
-        'style-src': ["'self'", 'fonts.googleapis.com'],
-      },
-    },
-  })
-);
+//Setups security headers
+app.use(helmet({contentSecurityPolicy:{
+    useDefaults: true,
+    directives: {
+      "script-src": ["'self'"],
+      "connect-src": ["'self'", "*.playfabapi.com"],
+      "style-src": ["'self'", "fonts.googleapis.com"]
+    },}
+}));
 
 app.use(session);
 
-// Use compression to reduce files size
-app.use(
-  compression({
-    filter: function (req, res) {
-      return true;
-    },
-  })
-);
+//Use compression to reduce files size
+app.use(compression({filter: function (req, res) {
+    return true;
+}}));
 
-// Send the public files to the domain
-app.get('/', (req, res) => {
-  return res.sendFile(
-    path.join(__dirname, 'public/index.html'),
-    function (err) {
-      if (err) {
-        res.status(404);
-        res.end();
-      }
-    }
-  );
-});
-
-app.get('/*', (req, res, next) => {
-  /* if(req.get('cf-ray') != undefined && req.headers['x-forwarded-proto'] == 'https'){
- }else{
- return res.status(404).send('Not found');
-} uncomment at final build */
-
-  const options = {
-    root: path.resolve(__dirname, './public'),
-  };
-  const split = req.path.split('/');
-
-  let player = null;
-  try {
-    try {
-      player = io.sockets.sockets[req.headers.cookie.split('io=')[1]]; // Get socket player
-    } catch (error) {
-      console.log(`Error getting player at express: ${error}`);
-    }
-
-    function sendFile() {
-      return res.sendFile(decodeURI(req.path), options, function (err) {
-        if (err) {
-          res.sendStatus(404);
-          res.end();
-          console.error(err);
+app.use((req, res, next) =>{
+    res.setHeader(
+        "Permissions-Policy",
+        'fullscreen=(self), geolocation=(self), camera=(), microphone=(), payment=(), autoplay=(self), document-domain=()'
+    );
+    next();
+})
+//Send the public files to the domain
+app.get('/', (req, res) =>{
+    return res.sendFile(path.join(__dirname, `public/index.html`), function(err){
+        if(err){
+            return res.status(404).send(`Cannot Get /index.html`);
         }
-      });
-    }
+    })
+});
 
-    function sendFileModDev(fileForMod = false, fileForDev = false) {
-      if (player !== null && player.handshake.address === req.ip) {
-        // Guarantee that the connection is secure
-        if (
-          (fileForMod && player.isMod === true) ||
-          (fileForMod && player.isDev === true)
-        ) {
-          sendFile();
-        } else if (fileForDev && player.isDev === true) {
-          sendFile();
-        } else {
-          res.sendStatus(404);
-          res.end();
+app.get('/*', (req, res, next) =>{
+    //if(req.get('cf-ray') != undefined && req.headers['x-forwarded-proto'] == 'https'){
+
+    //}else{
+    //    return    res.status(404).send('Not found');
+    //} uncomment at final build
+    
+    let options = {
+        root: path.join(__dirname, 'public')
+    };
+    let split = req.path.split('/');
+    let fileName = split[split.length - 1];
+
+    if(split[1] === 'Moderation'){
+        let player = io.sockets.sockets[req.headers.cookie.split('io=')[1]]; //Get socket player
+        if(player !== undefined && player.handshake.address === req.ip){ //Guarantee that the connection is secure
+            if(player.isDev !== undefined || player.isMod !== undefined){ // Guarantee it's not a normal player
+                return res.sendFile(decodeURI(req.path), options, function (err) {
+                    if (err) {
+                        return res.status(404).send(`Cannot GET /${fileName}`);
+                    }
+                });
+            }
+        }else{
+            return res.status(404).send(`Cannot GET /${fileName}`);
         }
-      }
+    }else if(split[1] === 'Devs'){
+        let player = io.sockets.sockets[req.headers.cookie.split('io=')[1]]; //Get socket player
+        if(player !== undefined && player.handshake.address === req.ip){ //Guarantee that the connection is secure
+            if(player.isDev !== undefined){ // Guarantee it's not a normal player
+                return res.sendFile(decodeURI(req.path), options, function (err) {
+                    if (err) {
+                        return res.status(404).send(`Cannot GET /${fileName}`);
+                    }
+                });
+            }
+        }else{
+            return res.status(404).send(`Cannot GET /${fileName}`);
+        }
+    }else if(split[1] !== 'Audio'){
+        return res.sendFile(decodeURI(req.path), options, function (err) {
+            if (err) {
+                return res.status(404).send(`Cannot GET /${fileName}`);
+            }
+        });
+    }else{
+        return res.sendFile(path.join(__dirname, `public${decodeURI(req.path)}`))
     }
+})
 
-    switch (split[1]) {
-      case 'Moderation':
-        sendFileModDev(true);
-        break;
+//Websockets communication
+server_socket.connect(io, sharedsession(session), PlayFabServer, PlayFabAdmin, discordBot.client, discordBot);
 
-      case 'Devs':
-        sendFileModDev(false, true);
-        break;
-
-      default:
-        sendFile();
-    }
-  } catch (error) {
-    console.log(`Error sending files to client: ${error}`);
-    res.sendStatus(404);
-    res.end();
-  }
-});
-
-// Handle errors with express
-app.use((err, req, res, next) => {
-  if (err) {
-    console.error(err);
-    return res.sendStatus(500);
-  }
-  next();
-});
-
-// Websockets communication
-serverSocket.connect(io, sharedSession(session));
-
-// Start the server on port 3000
+//Start the server on port 3000
 http.listen(process.env.PORT || 3000, () => {
-  console.log('listening on *:3000');
+    console.log('listening on *:3000');
 });
