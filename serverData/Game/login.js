@@ -125,7 +125,7 @@ exports.run = (io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, P
 											if(error !== null){
 												console.log(error);
 											}else if(result !== null){
-												playerGear = new Array();
+												playerGear = new Map();
 												inventory.forEach((equippedItem) =>{
 													try{ //This try catch stops the server from crashing until the player opens their inventory.
 														if(equippedItem.CustomData.isEquipped == 'true'){ //Get the items the player is wearing
@@ -134,7 +134,7 @@ exports.run = (io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, P
 															ItemId = equippedItem.ItemId;
 															isEquipped = equippedItem.CustomData;
 															item = {ItemClass, ItemId, isEquipped}; //Removes informations that may affect the security
-															playerGear.push(item);
+															playerGear.set(ItemId, item);
 														}
 													}
 													catch(error){

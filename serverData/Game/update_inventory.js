@@ -7,10 +7,10 @@ exports.run = (socket, rooms, AFKTime, PlayFabAdmin, PlayFabServer, server_utils
 		let player = thisPlayerRoom.players.get(socket.playerId);
 		PlayFabAdmin.GetUserInventory({PlayFabId: socket.playerId}, (error,result) =>{
 			if(result !== null){
-				let items = new Array();
+				let items = new Map();
 				let equippedItems = 0;
 				let updatedPlayfab = 0;
-				
+
 				playerInventory.forEach((item) =>{
 					if(server_utils.getElementFromArray(item, "ItemId", result.data.Inventory) !== false){ //Checks if player has the item they say they have
 						if(item.CustomData.isEquipped == "true"){
@@ -18,7 +18,7 @@ exports.run = (socket, rooms, AFKTime, PlayFabAdmin, PlayFabServer, server_utils
 							PlayFabServer.UpdateUserInventoryItemCustomData({PlayfabId: socket.playerId, ItemInstanceId: item.ItemInstanceId, Data: {"isEquipped": "true"}}, (error, result) =>{
 								if(result !== null){
 									updatedPlayfab += 1;
-									items.push({ItemClass: item.ItemClass, ItemId: item.ItemId, isEquipped: item.CustomData});
+									items.set(item.ItemId, {ItemClass: item.ItemClass, ItemId: item.ItemId, isEquipped: item.CustomData});
 									if(updatedPlayfab == equippedItems){ //Checks if all items had been updated
 										player.gear = items;
 										socket.broadcast.to(socket.gameRoom).emit('playerUpdatedGear', {player: thisPlayerId, gear: items});

@@ -114,7 +114,7 @@ exports.connect = (io, session) => {
       if (players.size > 0) {
         const disconnectedPlayer = players.get(socket.playerId);
         const thisPlayerRoom = rooms[socket.gameRoom];
-        if (disconnectedPlayer === false || thisPlayerRoom.players === false)
+        if (disconnectedPlayer === false || thisPlayerRoom === undefined || thisPlayerRoom.players === undefined)
           return;
         const thisPlayer = thisPlayerRoom.players.get(disconnectedPlayer.id);
         if (thisPlayer.isMoving === true) {

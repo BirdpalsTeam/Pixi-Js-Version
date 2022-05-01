@@ -7,7 +7,7 @@ exports.run = (socket, AFKTime, PlayFabServer, server_utils, rateLimiter)=>{
 		server_utils.getPlayerInventory(socket.playerId).then(result =>{
 			let alreadyHasItem = false;
 			result.data.Inventory.forEach(item=>{
-				if(item.ItemId == itemInfo.name){
+				if(item.ItemId === itemInfo.name){
 					alreadyHasItem = true;
 					return;
 				}

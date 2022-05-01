@@ -1,6 +1,6 @@
 let { Point } = require('../Utils/Collisions.min.js');
 exports.Player = class Player{
-	constructor(id, username, gear=[], biography, friends=[]){
+	constructor(id, username, gear=new Map(), biography, friends=[]){
 		this.id = id;
 		this.username = username;
 		this.x = 500;
