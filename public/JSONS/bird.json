@@ -1,0 +1,365 @@
+{
+  "frames": {
+    "body_4.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 68,
+        "h": 83
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 68,
+        "h": 83
+      },
+      "sourceSize": {
+        "w": 68,
+        "h": 83
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "wings_4.png": {
+      "frame": {
+        "x": 0,
+        "y": 83,
+        "w": 86,
+        "h": 34
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 86,
+        "h": 34
+      },
+      "sourceSize": {
+        "w": 86,
+        "h": 34
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": 18
+      }
+    },
+    "feet_4.png": {
+      "frame": {
+        "x": 68,
+        "y": 0,
+        "w": 62,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 62,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 62,
+        "h": 20
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": 43
+      }
+    },
+    "eyeballs_4.png": {
+      "frame": {
+        "x": 68,
+        "y": 20,
+        "w": 46,
+        "h": 24
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 46,
+        "h": 24
+      },
+      "sourceSize": {
+        "w": 46,
+        "h": 24
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": -16
+      }
+    },
+    "eyebrows_shadow_4.png": {
+      "frame": {
+        "x": 68,
+        "y": 44,
+        "w": 46,
+        "h": 8
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 46,
+        "h": 8
+      },
+      "sourceSize": {
+        "w": 46,
+        "h": 9
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": -29
+      }
+    },
+    "eyebrows_4.png": {
+      "frame": {
+        "x": 68,
+        "y": 53,
+        "w": 44,
+        "h": 8
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 44,
+        "h": 8
+      },
+      "sourceSize": {
+        "w": 44,
+        "h": 8
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": -29
+      }
+    },
+    "pupils_4.png": {
+      "frame": {
+        "x": 68,
+        "y": 61,
+        "w": 26,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 26,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 26,
+        "h": 15
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": -14
+      }
+    },
+    "hair_4.png": {
+      "frame": {
+        "x": 86,
+        "y": 76,
+        "w": 20,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 20,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 20,
+        "h": 19
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": -48
+      }
+    },
+    "pupil_light_4.png": {
+      "frame": {
+        "x": 68,
+        "y": 76,
+        "w": 18,
+        "h": 6
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 18,
+        "h": 6
+      },
+      "sourceSize": {
+        "w": 18,
+        "h": 6
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": -2,
+        "y": -11
+      }
+    },
+    "beak_shadow_4.png": {
+      "frame": {
+        "x": 94,
+        "y": 61,
+        "w": 15,
+        "h": 8
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 15,
+        "h": 8
+      },
+      "sourceSize": {
+        "w": 15,
+        "h": 8
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0.5,
+        "y": -1
+      }
+    },
+    "bottom_beak_4.png": {
+      "frame": {
+        "x": 94,
+        "y": 69,
+        "w": 10,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 10,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 10,
+        "h": 7
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "upper_beak_4.png": {
+      "frame": {
+        "x": 86,
+        "y": 95,
+        "w": 14,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 14,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 14,
+        "h": 10
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "position": {
+        "x": 0,
+        "y": -5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://github.com/odrick/free-tex-packer-core",
+    "version": "0.3.4",
+    "image": "../Sprites/characters/bird.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 130,
+      "h": 117
+    },
+    "scale": 1
+  },
+  "sprites": [
+    "hair",
+    "eyebrows",
+    "eyebrows_shadow",
+    "pupil_light",
+    "pupils",
+    "eyeballs",
+    "upper_beak",
+    "bottom_beak",
+    "beak_shadow",
+    "body",
+    "wings",
+    "feet"
+  ]
+}

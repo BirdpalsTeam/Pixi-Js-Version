@@ -168,16 +168,10 @@ class Cell extends PIXI.Graphics {
       if (this.isSelected == false) {
         this.fillGray();
         this.isSelected = true;
-        if (
-          getElementFromArrayByValue(
-            this.item.ItemId,
-            'ItemId',
-            localPlayer.gear
-          ) == false
-        ) {
+        if(!localPlayer.gear.has(this.item.ItemId)){
           localPlayer.gear.forEach((item) => {
             if (item.ItemClass === this.item.ItemClass) {
-              removeElementFromArray(item, localPlayer.gear);
+              localPlayer.gear.delete(item.ItemId);
               this.parent.cells.forEach((cell) => {
                 if (
                   cell.item !== undefined &&
@@ -189,20 +183,14 @@ class Cell extends PIXI.Graphics {
               });
             }
           });
-          localPlayer.gear.push(this.item);
+          localPlayer.gear.set(this.item.ItemId, this.item);
         }
       } else {
+        if (localPlayer.gear.has(this.item.ItemId)) {
+          localPlayer.gear.delete(this.item.ItemId);
+        }
         this.isSelected = false;
         this.clearGray();
-        if (
-          getElementFromArrayByValue(
-            this.item.ItemId,
-            'ItemId',
-            localPlayer.gear
-          ) !== false
-        ) {
-          removeElementFromArray(this.item, localPlayer.gear);
-        }
       }
     });
   }

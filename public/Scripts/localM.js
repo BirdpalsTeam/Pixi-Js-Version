@@ -111,16 +111,18 @@ socket.on("resetInventory", (info) => {
 	inventory.items = null;
 })
 
+socket.on("playerUpdatedGear", (info) => {
+  let player = playersInGame.get(info.player);
+  player.gear = info.gear;
+  player.updateGear();
+})
+
 socket.on('M', (s) =>{
 	s.forEach((src) =>{
 		let script = document.createElement('script');
 		script.setAttribute('src', src);
 		document.getElementById('Scripts').appendChild(script);
 	})
-})
-
-socket.on("resetInventory", (info) => {
-	inventory.items = null;
 })
 
 console.log("%cATTENTION!","color: #FF2D00; font-family:sans-serif; font-size: 45px; font-weight: 900; text-shadow: #000 3px 3px 3px");

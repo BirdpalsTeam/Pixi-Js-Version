@@ -74,12 +74,9 @@ class Book extends PIXI.Sprite {
 }
 
 class BirdColorReplacement extends PIXI.Filter {
-  constructor(newColor, epsilon) {
-    if (epsilon == undefined) {
-      epsilon = 0.4
-    }
+  constructor(originalColor=0x3db0ff, newColor, epsilon=0.4) {
     super(null, resources.colorReplacementFrag.data, {
-      originalColor: PIXI.utils.hex2rgb(0x3db0ff),
+      originalColor: PIXI.utils.hex2rgb(originalColor),
       newColor: PIXI.utils.hex2rgb(newColor),
       epsilon: epsilon,
     })

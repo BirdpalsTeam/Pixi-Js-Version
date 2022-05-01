@@ -37,6 +37,7 @@ window.onload = ()=>{
 function loadWorld(){
 	app.loader.add('allRooms', `${JSONSrc}roomsJSON.json`);
 	app.loader.add('town', `${JSONSrc}town.json`);
+  app.loader.add('bird', `${JSONSrc}bird.json`)
 	app.loader.add('bird_blue', `${JSONSrc}bird_blue.json`);
 	app.loader.add('bubble_message', `${spritesSrc}hud/bubble.png`);
 	app.loader.add('items', `${JSONSrc}items.json`);
