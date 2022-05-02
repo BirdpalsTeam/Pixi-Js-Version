@@ -1,4 +1,6 @@
-exports.run = (socket, rooms, AFKTime, client, server_discord, server_utils, profanity) => {
+const { profanity } = require('super-profanity')
+
+exports.run = (socket, rooms, AFKTime, client, server_discord, server_utils) => {
 	socket.on('playerMovement', (playerMovement) =>{
 		if(socket.playerId == undefined) return;
 		server_utils.resetTimer(socket, AFKTime);
@@ -29,7 +31,7 @@ exports.run = (socket, rooms, AFKTime, client, server_discord, server_utils, pro
 		let channel = client.channels.cache.get('845340183984341075');
 		let dateUTC = new Date(Date.now()).toUTCString();
 		if(server_utils.separateString(message)[0].includes("/") == false){
-			if(profanity.filter(message).isBadWord){
+			if(profanity(message).isBadWord){
 				let messageObject = {
 					id: player.id,
 					message: ":("

@@ -1,6 +1,7 @@
+const { profanity } = require('super-profanity')
+const { server_utils } = require('birdpals/utils')
 
-
-exports.run = (io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, PlayFabServer, PlayFabAdmin, profanity, server_utils, rateLimiter) =>{
+exports.run = (io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, PlayFabServer, PlayFabAdmin) =>{
 
 	socket.on('login',(ticket)=>{
 		PlayFabServer.AuthenticateSessionTicket({SessionTicket: ticket},(error,result)=>{
@@ -45,7 +46,7 @@ exports.run = (io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, P
 					playerTags = response.data.Tags; //Gets tags from playfab
 					//playerTags.indexOf('title.238E6') == -1 means that this player doesn't have the isReliable tag
 					if(userInfo.PrivateInfo.Email != undefined && userInfo.TitleInfo.Created != undefined && playerTags.indexOf('title.238E6.isReliable') == -1){
-						if(profanity.filter(userInfo.TitleInfo.DisplayName) == true){ //If user's display name is a bad word, it changes to Bird + randomId
+						if(profanity(userInfo.TitleInfo.DisplayName).isBadWord === true){ //If user's display name is a bad word, it changes to Bird + randomId
 							let randomId = '';
 							let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 							let charactersLength = characters.length;
@@ -77,7 +78,7 @@ exports.run = (io, socket, players, Player, rooms, devTeam, modTeam, IPBanned, P
 														let biography;
 														//Check if the player has a biography.
 														result.data.Data.biography == undefined ? biography = "I like to play Birdpals!" : biography = result.data.Data.biography.Value;
-														if(result.data.Data.biography != undefined && profanity.filter(biography) == true){
+														if(result.data.Data.biography != undefined && profanity(biography).isBadWord === true){
 															biography = "love";
 														}
 														if(players.size > 0){	//Check if there is at least one player online

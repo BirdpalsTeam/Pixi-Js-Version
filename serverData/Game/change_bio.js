@@ -1,10 +1,12 @@
+const { profanity } = require('super-profanity')
+
 exports.run = (socket, rooms, AFKTime, PlayFabAdmin, profanity, server_utils, rateLimiter)=>{
 	socket.on('/changeBio', (newBio) =>{
 		if(socket.playerId == undefined || newBio == undefined || typeof newBio !== "string" || newBio.length > 144) return;
 		server_utils.resetTimer(socket, AFKTime);
 		let thisPlayerRoom = rooms[socket.gameRoom];
 		let player = thisPlayerRoom.players.get(socket.playerId);
-		if(profanity.filter(newBio).isBadWord){
+		if(profanity(newBio).isBadWord){
 			newBio = 'I wish the world becomes a better place!';
 			updateBio();
 		}else{
