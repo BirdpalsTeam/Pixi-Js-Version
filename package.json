@@ -21,6 +21,7 @@
     "poly-decomp": "^0.3.0",
     "rate-limiter-flexible": "^2.3.6",
     "socket.io": "^2.4.1",
+    "super-profanity": "^1.0.1",
     "tinyld": "^1.2.0"
   },
   "repository": {
@@ -42,7 +43,7 @@
     "prettier": "^2.6.2"
   },
   "exports": {
-	".": "./serverData/serverData.js",
+    ".": "./serverData/serverData.js",
     "./discord": {
       "import": "./serverData/Discord/server_discord.js",
       "require": "./serverData/Discord/server_discord.js"
@@ -51,9 +52,9 @@
       "import": "./serverData/Game/game.js",
       "require": "./serverData/Game/game.js"
     },
-	"./utils": {
-	  "import": "./serverData/Utils/utils.js",
-	  "require": "./serverData/Utils/utils.js"
-	}
+    "./utils": {
+      "import": "./serverData/Utils/utils.js",
+      "require": "./serverData/Utils/utils.js"
+    }
   }
 }
