@@ -96,7 +96,7 @@ class Player extends PIXI.Sprite {
     this.texture = resources.bird_blue.textures[`${this.lookingInt}.png`];
     if (this.gear.size > 0) {
       this.gear.forEach((item) => {
-        // item.updateFrame(this.lookingInt);
+        item.updateFrame(this.lookingInt);
       });
     }
   }
@@ -290,12 +290,14 @@ class Player extends PIXI.Sprite {
   }
 
   updateGear() {
-    /*
     this.gear.forEach((item) => {
-      let item_sprite = new Item(item.ItemId, this.lookingInt);
+      let item_sprite = new Item(
+        { ItemId: item.ItemId, ItemClass: item.ItemClass },
+        this.lookingInt
+      );
       item_sprite.updateFrame(this.lookingInt);
       this.addChild(item_sprite);
       this.gear.set(item.ItemId, item_sprite);
-    });*/
+    });
   }
 }

@@ -165,12 +165,13 @@ class Cell extends PIXI.Graphics {
       }
     });
     this.on('pointerdown', (event) => {
-      if (this.isSelected == false) {
+      if (this.isSelected === false) {
         this.fillGray();
         this.isSelected = true;
         if(!localPlayer.gear.has(this.item.ItemId)){
           localPlayer.gear.forEach((item) => {
             if (item.ItemClass === this.item.ItemClass) {
+              localPlayer.gear.get(item.ItemId).destroy();
               localPlayer.gear.delete(item.ItemId);
               this.parent.cells.forEach((cell) => {
                 if (
@@ -187,6 +188,7 @@ class Cell extends PIXI.Graphics {
         }
       } else {
         if (localPlayer.gear.has(this.item.ItemId)) {
+          localPlayer.gear.get(item.ItemId).destroy();
           localPlayer.gear.delete(this.item.ItemId);
         }
         this.isSelected = false;
